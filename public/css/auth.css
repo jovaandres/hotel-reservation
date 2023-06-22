@@ -1,0 +1,15 @@
+.form-group .form-control {
+  font-size: 13px;
+}
+
+.btn-grad {
+  background-image: linear-gradient(to right, #04cec1, #04cec1);
+}
+
+.btn-grad:hover {
+  background-image: linear-gradient(to right, #02b8ac, #02b8ac);
+}
+
+.a-color {
+  color: #02b8ac;
+}
