@@ -1,9 +1,8 @@
-<!-- app/Views/home.php -->
 <?= $this->extend('templates/layout') ?>
 
 <?= $this->section('content') ?>
 <div class="container mt-4">
-    <h1>Welcome to Hotel Reservation</h1>
+    <h2>Welcome to Hotel Reservation</h2>
     <div class="card-container mt-4">
         <?php foreach ($rooms as $room) : ?>
             <a href="#" class="text-decoration-none">

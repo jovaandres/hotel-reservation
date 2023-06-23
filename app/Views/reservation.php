@@ -1,4 +1,3 @@
-<!-- app/Views/bookings.php -->
 <?= $this->extend('templates/layout') ?>
 
 <?= $this->section('content') ?>

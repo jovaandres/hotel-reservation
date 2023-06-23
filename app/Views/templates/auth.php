@@ -1,4 +1,3 @@
-<!-- app/Views/templates/base.php -->
 <!DOCTYPE html>
 <html>
 <head>

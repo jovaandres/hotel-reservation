@@ -12,10 +12,23 @@ class User extends Controller
 
     public function index()
     {
-        $model = new UserModel();
-        $users = $model->getAllUsers();
+        return view('profile');
+    }
 
-        return $this->respond($users);
+    public function changePassword()
+    {
+        $model = new UserModel();
+
+        if ($this->request->getMethod() === 'post') {
+
+            $currentPassword = $this->request->getPost('currentPassword');
+            $newPassword = $this->request->getPost('newPassword');
+            $confirmPassword = $this->request->getPost('confirmPassword');
+
+            return redirect()->back()->with('success', 'Password changed successfully.');
+        }
+
+        return view('profile');
     }
 
     public function show($id)
