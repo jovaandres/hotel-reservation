@@ -1,0 +1,29 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.card {
+  width: 180px;
+  margin: 10px;
+  border: none; /* Remove the border line */
+}
+
+.card-body {
+  padding: 6px!important;
+}
+
+.card-body * {
+  margin: 0;
+}
+
+.card-body p {
+  font-size: 12px;
+}
+
+.square-image {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}

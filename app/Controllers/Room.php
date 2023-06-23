@@ -32,7 +32,22 @@ class Room extends Controller
 
     public function create()
     {
-        // Code to create a new room
+        $model = new RoomModel();
+        $hotel = $model->getHotel($this->request->getVar('hotel_id'));
+
+        if ($hotel === null) {
+            return $this->failNotFound('Hotel not found.');
+        }
+
+        $data = [
+            'hotel_id' => $this->request->getVar('hotel_id'),
+            'room_type' => $this->request->getVar('room_type'),
+            'price_per_night' => $this->request->getVar('price_per_night'),
+        ];
+
+        $model->createRoom($data);
+
+        return $this->respondCreated($data);
     }
 
     public function update($id)
