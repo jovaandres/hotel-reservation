@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <p class="card-title"><b><?= $room['hotel_name'] ?></b></p>
                         <p class="card-text"><?= $room['room_type'] ?></p>
-                        <p class="card-text"><b><?= $room['price_per_night'] ?></b></p>
+                        <p class="card-text"><b>$<?= $room['price_per_night'] ?> / night</b></p>
                     </div>
                 </div>
             </a>

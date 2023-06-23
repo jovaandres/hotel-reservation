@@ -16,7 +16,10 @@ class ReservationModel extends Model
 
     public function getReservations()
     {
-        return $this->findAll();
+        return $this->select('reservation.*, room.room_type, hotel.name as hotel_name')
+            ->join('room', 'room.id = reservation.room_id')
+            ->join('hotel', 'hotel.id = room.hotel_id')
+            ->findAll();
     }
 
     public function getReservation($id)

@@ -15,7 +15,9 @@ class Reservation extends Controller
         $model = new ReservationModel();
         $reservations = $model->getReservations();
 
-        return $this->respond($reservations);
+        return view('reservation', [
+            'bookings' => $reservations,
+        ]);
     }
 
     public function show($id)
