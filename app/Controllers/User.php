@@ -30,7 +30,7 @@ class User extends Controller
         $validCreds = auth()->check($credentials);
 
         if (! $validCreds->isOK()) {
-            return redirect()->back()->with('error', $credentials['password']);
+            return redirect()->back()->with('error', $validCreds->reason());
         }
 
         $users = auth()->getProvider();
@@ -40,6 +40,33 @@ class User extends Controller
         $users->save($user); 
 
         return redirect()->back()->with('success', 'Password changed successfully.');
+    }
+
+    public function forgetPassword()
+    {
+        $email = $this->request->getPost('email');
+
+        $users = auth()->getProvider();
+        $user = $users->findByCredentials(['email' => $email]);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        return view('auth/reset', ['user' => $user]);
+    }
+
+    public function resetPassword()
+    {
+        $email = $this->request->getPost('email');
+
+        $users = auth()->getProvider();
+        $user = $users->findByCredentials(['email' => $email]);
+
+        $user->password = $this->request->getPost('password');
+        $users->save($user);
+
+        return redirect()->to('/login')->with('success', 'Password reset successfully.');
     }
 
     public function show($id)

@@ -14,11 +14,16 @@ class AddFieldsToUsersTable extends Migration
                 'constraint' => 255,
                 'null' => true
             ],
+            'is_admin' => [
+                'type' => 'BOOLEAN',
+                'default' => false
+            ],
         ]);
     }
 
     public function down()
     {
         $this->forge->dropColumn('users', 'name');
+        $this->forge->dropColumn('users', 'is_admin');
     }
 }

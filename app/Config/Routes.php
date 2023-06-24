@@ -61,7 +61,17 @@ $routes->post('/reservation/', 'Reservation::create');
 $routes->put('/reservation/(:num)', 'Reservation::update/$1');
 $routes->delete('/reservation/(:num)', 'Reservation::delete/$1');
 
+$routes->group('admin', ["filter" => "admin"] , function($routes) {
+    $routes->get('/', 'AdminDashboard::index');
+});
+
 $routes->post('/change-password', 'User::changePassword');
+
+$routes->get('/forget', 'Authentication::forget');
+$routes->post('/forget', 'User::forgetPassword');
+
+$routes->post('/reset', 'User::resetPassword');
+
 service('auth')->routes($routes);
 
 /*

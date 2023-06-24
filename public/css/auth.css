@@ -18,3 +18,13 @@
 .a-color {
   color: #02b8ac;
 }
+
+.forget-password {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forget-password a {
+  font-size: 12px;
+  font-weight: 700;
+}

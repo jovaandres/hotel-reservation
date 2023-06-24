@@ -5,6 +5,10 @@
   <div class="container mt-4">
       <h2>Profile</h2>
       <div class="col profile">
+        
+                <?php if (session('success') !== null) : ?>
+                    <div class="alert alert-success" role="alert"><?= session('success') ?></div>
+                <?php endif ?>
                 <?php if (session('error') !== null) : ?>
                 <div class="alert alert-danger small" role="alert"><?= session('error') ?></div>
                 <?php elseif (session('errors') !== null) : ?>

@@ -1,3 +1,8 @@
+<?php
+    $authenticator = auth('session')->getAuthenticator();
+    $isLoggedIn = $authenticator->loggedIn();
+?>
+
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a class="navbar-brand" href="/">Hotel Reservation</a>
@@ -19,12 +24,18 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        Me
+                        Account
                     </a>
+                    <?php if ($isLoggedIn): ?>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="/user">Profile</a>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
+                    <?php else: ?>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="/login">Login</a>
+                    </div>
+                    <?php endif; ?>
                 </li>
             </ul>
         </div>
