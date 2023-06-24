@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
 
@@ -12,23 +11,35 @@ class User extends Controller
 
     public function index()
     {
-        return view('profile');
+        $authenticator = auth('session')->getAuthenticator();
+        $user = $authenticator->getUser();
+
+        return view('profile', ['user' => $user]);
     }
 
     public function changePassword()
     {
-        $model = new UserModel();
+        $authenticator = auth('session')->getAuthenticator();
+        $currentUser = $authenticator->getUser();
 
-        if ($this->request->getMethod() === 'post') {
+        $credentials = [
+            'email'    => $currentUser->email,
+            'password' => $this->request->getPost('currentPassword')
+        ];
 
-            $currentPassword = $this->request->getPost('currentPassword');
-            $newPassword = $this->request->getPost('newPassword');
-            $confirmPassword = $this->request->getPost('confirmPassword');
+        $validCreds = auth()->check($credentials);
 
-            return redirect()->back()->with('success', 'Password changed successfully.');
+        if (! $validCreds->isOK()) {
+            return redirect()->back()->with('error', $credentials['password']);
         }
 
-        return view('profile');
+        $users = auth()->getProvider();
+        $user = $users->findById($currentUser->id);
+
+        $user->password = $this->request->getPost('newPassword');
+        $users->save($user); 
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
     }
 
     public function show($id)

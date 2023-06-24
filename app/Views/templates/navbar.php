@@ -23,7 +23,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="/user">Profile</a>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
                 </li>
             </ul>

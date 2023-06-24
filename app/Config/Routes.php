@@ -31,12 +31,6 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-// Authentication
-$routes->get('/login', 'Authentication::login');
-$routes->post('/login', 'Authentication::attemptLogin');
-$routes->get('/register', 'Authentication::register');
-$routes->post('/register', 'Authentication::attemptRegister');
-
 $routes->get('/user/', 'User::index');
 $routes->get('/user/(:num)', 'User::show/$1');
 $routes->post('/user/', 'User::create');
@@ -66,6 +60,9 @@ $routes->get('/reservation/(:num)', 'Reservation::show/$1');
 $routes->post('/reservation/', 'Reservation::create');
 $routes->put('/reservation/(:num)', 'Reservation::update/$1');
 $routes->delete('/reservation/(:num)', 'Reservation::delete/$1');
+
+$routes->post('/change-password', 'User::changePassword');
+service('auth')->routes($routes);
 
 /*
  * --------------------------------------------------------------------
