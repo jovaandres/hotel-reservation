@@ -25,9 +25,15 @@ class AdminDashboard extends BaseController
     public function manageRoom()
     {
       $roomModel = new RoomModel();
-      $rooms = $roomModel->findAll();
+      $rooms = $roomModel->getRoomsAndHotels();
       
-      return view('admin/manage_room', ['rooms' => $rooms]);
+      $hotelModel = new HotelModel();
+      $hotels = $hotelModel->getAllHotelsName();
+      
+      return view('admin/manage_room', [
+        'rooms' => $rooms,
+        'hotels' => $hotels
+      ]);
     }
 
     public function manageUser()

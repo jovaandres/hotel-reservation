@@ -13,7 +13,11 @@
           <input type="hidden" name="id" id="editRoomId">
           <div class="form-group">
             <label for="editRoomType">Room Type</label>
-            <textarea name="room_type" class="form-control" id="editRoomType" rows="3"></textarea>
+            <input type="text" name="room_type" class="form-control" id="editRoomType"></input>
+          </div>
+          <div class="form-group">
+            <label for="editRoomCapacity">Capacity</label>
+            <input type="text" name="capacity" class="form-control" id="editRoomCapacity">
           </div>
           <div class="form-group">
             <label for="editRoomPricePerNight">Price Per Night</label>
@@ -60,18 +64,30 @@
       <div class="modal-body">
         <form action="room/add" method="POST">
           <div class="form-group">
+            <label for="createHotelId">Hotel Name</label>
+            <select name="hotel_id" class="form-control" id="createHotelId" required>
+              <?php foreach ($hotels as $hotel) : ?>
+                <option value="<?= $hotel['id'] ?>"><?= $hotel['name'] ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="createRoomType">Room Type</label>
             <input type="text" name="room_type" class="form-control" id="createRoomType" required>
+          </div>
+          <div class="form-group">
+            <label for="createRoomOccupancy">Occupancy</label>
+            <input type="text" name="occupancy" class="form-control" id="createRoomOccupancy" required>
           </div>
           <div class="form-group">
             <label for="createRoomPricePerNight">Price Per Night</label>
             <input type="text" name="price_per_night" class="form-control" id="createRoomPricePerNight" required>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Create</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </form>
       </div>
     </div>
   </div>
@@ -86,26 +102,29 @@
   <thead>
     <tr>
       <th scope="col">No</th>
-      <th scope="col">Hotel Id</th>
+      <th scope="col">Hotel Name</th>
       <th scope="col">Room Type</th>
+      <th scope="col">Occupancy</th>
       <th scope="col">Price Per Night</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($rooms as $key => $room) : ?>
       <tr>
         <th scope="row"><?= $key + 1 ?></th>
-        <td><?= $room['hotel_id'] ?></td>
+        <td><?= $room['hotel_name'] ?></td>
         <td><?= $room['room_type'] ?></td>
+        <td><?= $room['occupancy'] ?></td>
         <td>Rp <?= number_format($room['price_per_night'], 0, '.', '.') ?></td>
         <td>
           <!-- Actions buttons -->
           <!-- Edit button -->
-          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $room['id'] ?>" data-hotel_id="<?= $room['hotel_id'] ?>" data-room_type="<?= $room['room_type'] ?>" data-price_per_night="<?= $room['price_per_night'] ?>">
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $room['id'] ?>" data-hotel-name="<?= $room['hotel_name'] ?>" data-room-type="<?= $room['room_type'] ?>" data-occupancy=<?= $room['occupancy'] ?> data-price-per-night="<?= $room['price_per_night'] ?>">
             Edit
           </button>
           <!-- Delete button -->
-          <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $room['id'] ?>" data-hotel_id="<?= $room['hotel_id'] ?>">
+          <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $room['id'] ?>" data-hotel-name="<?= $room['hotel_name'] ?>">
             Delete
           </button>
         </td>
@@ -124,20 +143,21 @@
     function handleEditModalShow(event) {
         var button = event.relatedTarget;
         var id = button.getAttribute('data-id');
-        var hotel_id = button.getAttribute('data-hotel_id');
-        var room_type = button.getAttribute('data-room_type');
-        var price_per_night = button.getAttribute('data-price_per_night');
+        var hotel_name = button.getAttribute('data-hotel-name');
+        var room_type = button.getAttribute('data-room-type');
+        var occupancy = button.getAttribute('data-occupancy');
+        var price_per_night = button.getAttribute('data-price-per-night');
 
         var editRoomId = editModal.querySelector('#editRoomId');
-        var editHotelId = editModal.querySelector('#editHotelId');
         var editRoomType = editModal.querySelector('#editRoomType');
+        var editRoomCapacity = editModal.querySelector('#editRoomCapacity');
         var editRoomPricePerNight = editModal.querySelector('#editRoomPricePerNight');
 
         // Set the values in the modal inputs
         editRoomId.value = id;
-        editHotelId.value = hotel_id;
         editRoomType.value = room_type;
-        editRoomPricePerNight = price_per_night;
+        editRoomCapacity.value = occupancy;
+        editRoomPricePerNight.value = price_per_night;
     }
 
     function handleDeleteModalShow(event) {

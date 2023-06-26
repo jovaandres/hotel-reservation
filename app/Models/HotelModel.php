@@ -15,6 +15,11 @@ class HotelModel extends Model
         return $this->findAll();
     }
 
+    public function getAllHotelsName()
+    {
+        return $this->select('id, name')->findAll();
+    }
+
     public function getHotel($id)
     {
         return $this->find($id);

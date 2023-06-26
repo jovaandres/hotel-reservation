@@ -33,16 +33,21 @@ class Room extends Controller
 
     public function create()
     {
+        $hotel_id = $this->request->getPost('hotel_id');
+
         $model = new RoomModel();
-        $hotel = $model->getHotel($this->request->getPost('hotel_id'));
+
+        $hotelModel = new HotelModel();
+        $hotel = $hotelModel->getHotel($hotel_id);
 
         if ($hotel === null) {
             return $this->failNotFound('Hotel not found.');
         }
 
         $data = [
-            'hotel_id' => $this->request->getPost('hotel_id'),
+            'hotel_id' => $hotel_id,
             'room_type' => $this->request->getPost('room_type'),
+            'occupancy' => $this->request->getPost('occupancy'),
             'price_per_night' => $this->request->getPost('price_per_night'),
         ];
 
@@ -51,13 +56,13 @@ class Room extends Controller
         return redirect()->back()->with('success', 'Room created.');
     }
 
-    public function update($id)
+    public function update()
     {
         $model = new RoomModel();
 
         $id = $this->request->getPost('id');
-        $hotel_id = $this->request->getPost('hotel_id');
         $room_type = $this->request->getPost('room_type');
+        $occupancy = $this->request->getPost('capacity');
         $price_per_night = $this->request->getPost('price_per_night');
 
         $room = $model->getRoom($id);
@@ -67,8 +72,8 @@ class Room extends Controller
         }
 
         $data = [
-            'hotel_id' => $hotel_id,
             'room_type' => $room_type,
+            'occupancy' => $occupancy,
             'price_per_night' => $price_per_night
         ];
 
@@ -77,7 +82,7 @@ class Room extends Controller
         return redirect()->back()->with('success', 'Room updated.');
     }
 
-    public function delete($id)
+    public function delete()
     {
         $model = new RoomModel();
 
@@ -89,7 +94,7 @@ class Room extends Controller
             return redirect()->back()->with('error', 'Room not found.');
         }
 
-        $model->deleteHotel($id);
+        $model->deleteRoom($id);
 
         return redirect()->back()->with('success', 'Room deleted.');
     }
