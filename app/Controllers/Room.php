@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\HotelModel;
 use App\Models\RoomModel;
 use App\Models\ReviewModel;
 use CodeIgniter\API\ResponseTrait;
@@ -19,41 +20,78 @@ class Room extends Controller
         $modelReview = new ReviewModel();
         $reviews = $modelReview->getReview($room['hotel_id']);
 
+        $modelHotel = new HotelModel();
+        $hotel = $modelHotel->getHotel($room['hotel_id']);
+
         #return $this->respond($rooms);
         return view('room', [
             'rooms' => $room,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'hotel' => $hotel
         ]);
     }
 
     public function create()
     {
         $model = new RoomModel();
-        $hotel = $model->getHotel($this->request->getVar('hotel_id'));
+        $hotel = $model->getHotel($this->request->getPost('hotel_id'));
 
         if ($hotel === null) {
             return $this->failNotFound('Hotel not found.');
         }
 
         $data = [
-            'hotel_id' => $this->request->getVar('hotel_id'),
-            'room_type' => $this->request->getVar('room_type'),
-            'price_per_night' => $this->request->getVar('price_per_night'),
+            'hotel_id' => $this->request->getPost('hotel_id'),
+            'room_type' => $this->request->getPost('room_type'),
+            'price_per_night' => $this->request->getPost('price_per_night'),
         ];
 
-        $model->createRoom($data);
+        $model->insert($data);
 
-        return $this->respondCreated($data);
+        return redirect()->back()->with('success', 'Room created.');
     }
 
     public function update($id)
     {
-        // Code to update an existing room
+        $model = new RoomModel();
+
+        $id = $this->request->getPost('id');
+        $hotel_id = $this->request->getPost('hotel_id');
+        $room_type = $this->request->getPost('room_type');
+        $price_per_night = $this->request->getPost('price_per_night');
+
+        $room = $model->getRoom($id);
+
+        if ($room === null) {
+            return redirect()->back()->with('error', 'Room not found.');
+        }
+
+        $data = [
+            'hotel_id' => $hotel_id,
+            'room_type' => $room_type,
+            'price_per_night' => $price_per_night
+        ];
+
+        $model->updateRoom($id, $data);
+
+        return redirect()->back()->with('success', 'Room updated.');
     }
 
     public function delete($id)
     {
-        // Code to delete a room
+        $model = new RoomModel();
+
+        $id = $this->request->getPost('id');
+
+        $room = $model->getRoom($id);
+
+        if ($room === null) {
+            return redirect()->back()->with('error', 'Room not found.');
+        }
+
+        $model->deleteHotel($id);
+
+        return redirect()->back()->with('success', 'Room deleted.');
     }
 
     public function showReview($id)
@@ -70,7 +108,24 @@ class Room extends Controller
 
     public function createReview()
     {
-        // Code to create a new review
+        $model = new ReviewModel();
+
+        $authenticator = auth('session')->getAuthenticator();
+        $currentUser = $authenticator->getUser();
+
+        $room_id = $this->request->getPost('room_id');
+
+        $data = [
+            'rating' => $this->request->getPost('rating'),
+            'comment' => $this->request->getPost('comment'),
+            'hotel_id' => $this->request->getPost('hotel_id'),
+            'user_id' => $currentUser->id
+        ];
+
+        $model->createReview($data);
+
+        // Redirect back to the room detail page after creating the review
+        return redirect()->to('/room/' . $room_id);
     }
 
     public function updateReview($id)

@@ -29,8 +29,8 @@
                 <li class="nav-item <?= (current_url() == base_url('admin/hotel')) ? 'selected' : '' ?>">
                     <a class="nav-link" href="<?= base_url('admin/hotel') ?>">Manage Hotel</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Manage Room</a>
+                <li class="nav-item <?= (current_url() == base_url('admin/room')) ? 'selected' : '' ?>">
+                    <a class="nav-link" href="<?= base_url('admin/room') ?>">Manage Room</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Manage Booking</a>

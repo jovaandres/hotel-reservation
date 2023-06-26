@@ -39,11 +39,11 @@ $routes->delete('/user/(:num)', 'User::delete/$1');
 
 $routes->get('/hotel/', 'Hotel::index');
 
-$routes->get('/review/', 'Review::index');
-$routes->get('/review/(:num)', 'Review::show/$1');
-$routes->post('/review/', 'Review::create');
-$routes->put('/review/(:num)', 'Review::update/$1');
-$routes->delete('/review/(:num)', 'Review::delete/$1');
+$routes->get('/review/', 'Room::index');
+$routes->get('/review/(:num)', 'Room::show/$1');
+$routes->post('/review/', 'Room::createReview');
+$routes->put('/review/(:num)', 'Room::update/$1');
+$routes->delete('/review/(:num)', 'Room::delete/$1');
 
 $routes->get('/room/(:id)', 'Room::index');
 $routes->get('/room/(:num)', 'Room::index/$1');
@@ -72,6 +72,13 @@ $routes->group('admin', ["filter" => "admin"] , function($routes) {
         $routes->post('add', 'Hotel::create');
         $routes->post('edit', 'Hotel::update');
         $routes->post('delete', 'Hotel::delete');
+    });
+
+    $routes->group('room', function($routes) {
+        $routes->get('/', 'AdminDashboard::manageRoom');
+        $routes->post('add', 'Room::create');
+        $routes->post('edit', 'Room::update');
+        $routes->post('delete', 'Room::delete');
     });
 
     $routes->group('user', function($routes) {

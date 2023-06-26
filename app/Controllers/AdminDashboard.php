@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\RoomModel;
 use App\Models\HotelModel;
 use CodeIgniter\API\ResponseTrait;
 
@@ -19,6 +20,14 @@ class AdminDashboard extends BaseController
       $hotels = $hotelModel->findAll();
       
       return view('admin/manage_hotel', ['hotels' => $hotels]);
+    }
+
+    public function manageRoom()
+    {
+      $roomModel = new RoomModel();
+      $rooms = $roomModel->findAll();
+      
+      return view('admin/manage_room', ['rooms' => $rooms]);
     }
 
     public function manageUser()

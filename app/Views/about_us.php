@@ -5,7 +5,7 @@
     <h1>About Us</h1>
     <div class="row">
         <div class="col-md-6">
-            <img src="https://example.com/about_us_image.jpg" class="img-fluid" alt="About Us Image">
+            <img src="https://ichef.bbci.co.uk/news/640/cpsprodpb/0196/production/_121260400_gettyimages-1348843962-1.jpg" class="img-fluid" alt="About Us Image">
         </div>
         <div class="col-md-6">
             <h3>Our Mission</h3>

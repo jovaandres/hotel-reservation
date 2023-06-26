@@ -61,3 +61,19 @@
   border-color: #02b8ac;
   box-shadow: 0 0 0 0.2rem rgba(2, 184, 172, 0.25);
 }
+
+.hotel-name {
+  font-size: 24px!important;
+}
+
+.description {
+  font-size: 14px!important;
+}
+
+.room-type {
+  font-size: 16px!important;
+}
+
+.price-per-night {
+  font-size: 15px!important;
+}
