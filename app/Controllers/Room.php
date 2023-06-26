@@ -15,7 +15,7 @@ class Room extends Controller
     public function index($id)
     {
         $model = new RoomModel();
-        $room = $model->getRoom($id);
+        $room = $model->getRoomAndImage($id);
 
         $modelReview = new ReviewModel();
         $reviews = $modelReview->getReview($room['hotel_id']);
@@ -23,7 +23,6 @@ class Room extends Controller
         $modelHotel = new HotelModel();
         $hotel = $modelHotel->getHotel($room['hotel_id']);
 
-        #return $this->respond($rooms);
         return view('room', [
             'rooms' => $room,
             'reviews' => $reviews,

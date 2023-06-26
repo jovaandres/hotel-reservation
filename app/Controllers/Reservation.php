@@ -30,7 +30,7 @@ class Reservation extends Controller
         $booking_id = $this->request->getPost('id');
 
         $data = [
-            'status' => 'pending',
+            'status' => 'transferred',
         ];
 
         $model->updateReservation($booking_id, $data);

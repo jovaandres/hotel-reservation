@@ -64,12 +64,16 @@
                             </td>
                             <td>Rp <?= number_format($booking['total_price'], 0, '.', '.') ?></td>
                             <td>
-                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" data-id="<?= $booking['id'] ?>" data-code="<?= $booking['booking_code'] ?>">
-                                    Pay
-                                </button>
-                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelBookingModal" data-id="<?= $booking['id'] ?>">
-                                    Cancel
-                                </button>
+                                <?php if ($booking['status'] == "pending"): ?>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" data-id="<?= $booking['id'] ?>" data-code="<?= $booking['booking_code'] ?>">
+                                        Pay
+                                    </button>
+                                <?php endif; ?>
+                                <?php if ($booking['status'] == "pending"): ?>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelBookingModal" data-id="<?= $booking['id'] ?>">
+                                        Cancel
+                                    </button>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

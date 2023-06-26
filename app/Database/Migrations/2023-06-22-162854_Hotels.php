@@ -16,12 +16,13 @@ class Hotels extends Migration
             'city'        => ['type' => 'VARCHAR', 'constraint' => 100],
             'phone'       => ['type' => 'VARCHAR', 'constraint' => 20],
             'email'       => ['type' => 'VARCHAR', 'constraint' => 100],
-            'image'       => ['type' => 'VARCHAR', 'constraint' => 255],
+            'image_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'created_at'  => ['type' => 'DATETIME', 'null' => true],
             'updated_at'  => ['type' => 'DATETIME', 'null' => true],
         ]);
 
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('image_id', 'images', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('hotel');
     }
 

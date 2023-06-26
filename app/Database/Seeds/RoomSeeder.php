@@ -16,10 +16,10 @@ class RoomSeeder extends Seeder
         // Generate 20 fake room records
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'hotel_id'        => rand(1, 5),
+                'hotel_id'        => $faker->numberBetween(1, 10),
                 'room_type'       => $faker->randomElement(['standard', 'deluxe', 'suite']),
                 'occupancy'       => rand(1, 2),
-                'price_per_night' => $faker->randomFloat(2, 200000, 10000000),
+                'price_per_night' => $faker->randomFloat(2, 200000, 1500000),
                 'created_at'      => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
                 'updated_at'      => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
             ];

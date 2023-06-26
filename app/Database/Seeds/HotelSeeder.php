@@ -23,7 +23,7 @@ class HotelSeeder extends Seeder
                 'city'        => $faker->city,
                 'phone'       => $faker->phoneNumber,
                 'email'       => $faker->email,
-                'image'       => 'https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg',
+                'image_id'    => $i + 1,
                 'created_at'  => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
                 'updated_at'  => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
             ];

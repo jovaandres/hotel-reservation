@@ -21,14 +21,19 @@ class RoomModel extends Model
 
     public function getRoomsAndHotels()
     {
-        return $this->select('room.*, hotel.name as hotel_name')
+        return $this->select('room.*, hotel.name as hotel_name, images.first_image as hotel_image')
             ->join('hotel', 'hotel.id = room.hotel_id')
+            ->join('images', 'images.id = hotel.image_id')
             ->findAll();
     }
 
-    public function getRoom($id)
+    public function getRoomAndImage($id)
     {
-        return $this->find($id);
+        return $this->select('room.*, images.*')
+            ->join('hotel', 'hotel.id = room.hotel_id')
+            ->join('images', 'images.id = hotel.image_id')
+            ->where('room.id', $id)
+            ->first();
     }
 
     public function createRoom($data)

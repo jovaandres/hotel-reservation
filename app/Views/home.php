@@ -10,7 +10,9 @@
         <?php foreach ($rooms as $room) : ?>
             <a href="/room/<?= $room['id'] ?>" class="text-decoration-none">
                 <div class="card mb-4 border-0">
-                    <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="card-img-top square-image" alt="Hotel Image">
+                    <div class="image-wrapper">
+                        <img src="<?= $room['hotel_image'] ?>" class="card-img-top square-image" alt="Hotel Image">
+                    </div>
                     <div class="card-body">
                         <p class="card-title"><b><?= $room['hotel_name'] ?></b></p>
                         <p class="card-text"><i><?= $room['room_type'] ?></i></p>

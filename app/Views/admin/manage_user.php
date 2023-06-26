@@ -28,6 +28,7 @@
   <thead>
     <tr>
       <th scope="col">No</th>
+      <th scope="col">Name</th>
       <th scope="col">Username</th>
       <th scope="col">Email</th>
       <th scope="col">Role</th>
@@ -39,6 +40,7 @@
     <?php foreach ($users as $key => $user) : ?>
       <tr>
         <th scope="row"><?= $key + 1 ?></th>
+        <td><?= $user->name ?></td>
         <td><?= $user->username ?></td>
         <td><?= $user->email ?></td>
         <td><?= $user->is_admin ? 'Admin' : 'User' ?></td>

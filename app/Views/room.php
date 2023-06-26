@@ -10,13 +10,13 @@
             <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="d-block w-100" alt="Room Image 1">
+                        <img src="<?= $rooms['first_image'] ?>" class="d-block w-100" alt="Room Image 1">
                     </div>
                     <div class="carousel-item">
-                        <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="d-block w-100" alt="Room Image 2">
+                        <img src="<?= $rooms['second_image'] ?>" class="d-block w-100" alt="Room Image 2">
                     </div>
                     <div class="carousel-item">
-                        <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="d-block w-100" alt="Room Image 3">
+                        <img src="<?= $rooms['third_image'] ?>" class="d-block w-100" alt="Room Image 3">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
