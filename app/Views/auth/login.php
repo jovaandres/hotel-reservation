@@ -3,7 +3,7 @@
 
 <?= $this->section('content') ?>
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow">
+        <div class="card bg-glassy shadow">
             <div class="card-body p-5">
                 <?php if (session('success') !== null) : ?>
                     <div class="alert alert-success" role="alert"><?= session('success') ?></div>

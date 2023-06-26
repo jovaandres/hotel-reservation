@@ -1,5 +1,6 @@
 .navbar {
   background-color: #FF5A5F!important;
+  background-color: #fff!important;
   position: sticky!important;
   top: 0;
   z-index: 100;
@@ -10,8 +11,16 @@
   color: #333!important;
 }
 
+.navbar a:hover {
+  color: #FF5A5F!important;
+}
+
+.navbar-brand {
+  display: none;
+}
+
 .navbar.scrolled {
-  background-color: #FF5A5Fb0!important;
+  background-color: #fff!important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)!important;
 }
 
@@ -23,12 +32,16 @@
   display: none!important;
 }
 
+.navbar.scrolled .navbar-brand {
+  display: block;
+}
+
 .navbar.scrolled .container {
   justify-content: center;
 }
 
-.navbar-brand {
-  font-weight: bold;
+.navbar.scrolled a {
+  color: #FF5A5F!important;
 }
 
 .navbar-nav .nav-link {
@@ -60,4 +73,8 @@
 .navbar-toggler:focus {
   outline: none!important;
   box-shadow: none!important;
+}
+
+.dropdown-menu a:focus {
+  background-color: #f8f9fa!important;
 }

@@ -2,6 +2,7 @@
   background-color: #3e5569!important;
   padding: 2rem;
   color: #fff;
+  z-index: 99;
 }
 
 .sidebar a {
@@ -37,6 +38,10 @@
 
 .sidebar .selected {
   background-color: #02b8ac!important;
+}
+
+.sidebar .selected a {
+  color: #fff!important;
 }
 
 .navbar {
@@ -81,4 +86,56 @@
 
 .filler {
   display: none;
+}
+
+thead th:nth-child(1) {
+  text-align: center;
+}
+
+tbody th {
+  text-align: center;
+}
+
+table th {
+  font-size: 14px;
+}
+
+table td {
+  font-size: 14px;
+}
+
+.modal-dialog-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+button {
+  font-size: 13px;
+}
+
+.extra {
+  position: fixed;
+  bottom: 1.5rem;
+}
+
+.extra a {
+  font-size: 16px!important;
+}
+
+.extra .home {
+  color: rgb(1, 185, 1);
+}
+
+.extra .home:hover {
+  color: rgb(3, 234, 3);
+}
+
+.extra .logout {
+  color: red;
+}
+
+.extra .logout:hover {
+  color: rgb(255, 73, 73);
 }

@@ -91,8 +91,20 @@ class User extends Controller
         // Code to update an existing user
     }
 
-    public function delete($id)
+    public function delete()
     {
-        // Code to delete a user
+        $users = auth()->getProvider();
+
+        $id = $this->request->getPost('id');
+
+        $user = $users->findById($id);
+
+        if ($user === null) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        $users->delete($user->id);
+
+        return redirect()->back()->with('success', 'User deleted.');
     }
 }

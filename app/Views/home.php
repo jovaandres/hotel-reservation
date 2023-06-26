@@ -1,8 +1,11 @@
 <?= $this->extend('templates/layout') ?>
 
 <?= $this->section('content') ?>
-<div class="container mt-4">
-    <h2>Welcome to Hotel Reservation</h2>
+<div class="container hotel-container mt-4">
+    <div class="home-title">
+        <h1>Hotel Reservation</h1>
+        <p>Find your perfect room</p>
+    </div>
     <div class="card-container mt-4">
         <?php foreach ($rooms as $room) : ?>
             <a href="/room/<?= $room['id'] ?>" class="text-decoration-none">

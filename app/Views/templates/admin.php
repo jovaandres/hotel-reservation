@@ -23,11 +23,11 @@
     <div class="row vh-100">
         <div class="col-md-3 col-lg-2 sidebar">
             <div class="sidebar-heading ps-3">
-                <h3>Dashboard</h3>
+                <a class="active" href="<?= base_url('admin') ?>"><h3>Dashboard</h3></a>
             </div>
             <ul class="nav flex-column mt-4">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Manage Hotel</a>
+                <li class="nav-item <?= (current_url() == base_url('admin/hotel')) ? 'selected' : '' ?>">
+                    <a class="nav-link" href="<?= base_url('admin/hotel') ?>">Manage Hotel</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Manage Room</a>
@@ -35,11 +35,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Manage Booking</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Manage User</a>
+                <li class="nav-item <?= (current_url() == base_url('admin/user')) ? 'selected' : '' ?>">
+                    <a class="nav-link" href="<?= base_url('admin/user') ?>">Manage User</a>
                 </li>
             </ul>
+            <div class="extra ps-3">
+                <a class="nav-link home mb-2" href="<?= base_url() ?>">Home</a>
+                <a class="nav-link logout" href="<?= base_url('logout') ?>">Logout</a>
+            </div>
         </div>
+
 
         <!-- Content -->
         <div class="col-md-9 col-lg-10 content p-0">
@@ -54,10 +59,14 @@
                     </button>
                 </div>
             </nav>
-            <?= $this->renderSection('content') ?>
+            <div class="p-4">
+                <?= $this->renderSection('content') ?>
+            </div>
         </div>
     </div>
 </div>
+
+<?= $this->renderSection('script') ?>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -69,7 +78,6 @@
         });
     });
 </script>
-
 
 </body>
 

@@ -16,7 +16,7 @@
 }
 
 .a-color {
-  color: #02b8ac;
+  color: #06e9da;
 }
 
 .forget-password {
@@ -27,4 +27,10 @@
 .forget-password a {
   font-size: 12px;
   font-weight: 700;
+}
+
+.bg-glassy {
+  background-color: rgba(255, 255, 255, 0.25)!important;
+  backdrop-filter: blur(8px)!important;
+  -webkit-backdrop-filter: blur(8px)!important;
 }

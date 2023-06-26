@@ -32,16 +32,61 @@ class Hotel extends BaseController
 
     public function create()
     {
-        // Code to create a new hotel
+        $model = new HotelModel();
+
+        $name = $this->request->getPost('name');
+        $description = $this->request->getPost('description');
+        $address = $this->request->getPost('address');
+
+        $data = [
+            'name' => $name,
+            'description' => $description,
+            'address' => $address,
+        ];
+
+        $model->insert($data);
+
+        return redirect()->back()->with('success', 'Hotel created.');
     }
 
-    public function update($id)
+    public function update()
     {
-        // Code to update an existing hotel
+        $model = new HotelModel();
+
+        $id = $this->request->getPost('id');
+        $name = $this->request->getPost('name');
+        $address = $this->request->getPost('address');
+
+        $hotel = $model->getHotel($id);
+
+        if ($hotel === null) {
+            return redirect()->back()->with('error', 'Hotel not found.');
+        }
+
+        $data = [
+            'name' => $name,
+            'address' => $address,
+        ];
+
+        $model->updateHotel($id, $data);
+
+        return redirect()->back()->with('success', 'Hotel updated.');
     }
 
-    public function delete($id)
+    public function delete()
     {
-        // Code to delete a hotel
+        $model = new HotelModel();
+
+        $id = $this->request->getPost('id');
+
+        $hotel = $model->getHotel($id);
+
+        if ($hotel === null) {
+            return redirect()->back()->with('error', 'Hotel not found.');
+        }
+
+        $model->deleteHotel($id);
+
+        return redirect()->back()->with('success', 'Hotel deleted.');
     }
 }

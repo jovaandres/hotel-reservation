@@ -38,10 +38,6 @@ $routes->put('/user/(:num)', 'User::update/$1');
 $routes->delete('/user/(:num)', 'User::delete/$1');
 
 $routes->get('/hotel/', 'Hotel::index');
-$routes->get('/hotel/(:num)', 'Hotel::show/$1');
-$routes->post('/hotel/', 'Hotel::create');
-$routes->put('/hotel/(:num)', 'Hotel::update/$1');
-$routes->delete('/hotel/(:num)', 'Hotel::delete/$1');
 
 $routes->get('/review/', 'Review::index');
 $routes->get('/review/(:num)', 'Review::show/$1');
@@ -66,6 +62,22 @@ $routes->get('/contact-information', 'Contact_information::index');
 
 $routes->group('admin', ["filter" => "admin"] , function($routes) {
     $routes->get('/', 'AdminDashboard::index');
+});
+
+$routes->group('admin', ["filter" => "admin"] , function($routes) {
+    $routes->get('/', 'AdminDashboard::index');
+
+    $routes->group('hotel', function($routes) {
+        $routes->get('/', 'AdminDashboard::manageHotel');
+        $routes->post('add', 'Hotel::create');
+        $routes->post('edit', 'Hotel::update');
+        $routes->post('delete', 'Hotel::delete');
+    });
+
+    $routes->group('user', function($routes) {
+        $routes->get('/', 'AdminDashboard::manageUser');
+        $routes->post('delete', 'User::delete');
+    });
 });
 
 $routes->post('/change-password', 'User::changePassword');
