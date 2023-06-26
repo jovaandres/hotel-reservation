@@ -13,7 +13,11 @@
           <input type="hidden" name="id" id="editRoomId">
           <div class="form-group">
             <label for="editRoomType">Room Type</label>
-            <input type="text" name="room_type" class="form-control" id="editRoomType"></input>
+            <select name="room_type" class="form-control" id="editRoomType" required>
+                <option value="standard">standard</option>
+                <option value="deluxe">deluxe</option>
+                <option value="suite">suite</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="editRoomCapacity">Capacity</label>
@@ -73,7 +77,11 @@
           </div>
           <div class="form-group">
             <label for="createRoomType">Room Type</label>
-            <input type="text" name="room_type" class="form-control" id="createRoomType" required>
+            <select name="room_type" class="form-control" id="createRoomType" required>
+                <option value="standard">standard</option>
+                <option value="deluxe">deluxe</option>
+                <option value="suite">suite</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="createRoomOccupancy">Occupancy</label>
@@ -155,9 +163,15 @@
 
         // Set the values in the modal inputs
         editRoomId.value = id;
-        editRoomType.value = room_type;
         editRoomCapacity.value = occupancy;
         editRoomPricePerNight.value = price_per_night;
+
+        for (var i = 0; i < editRoomType.options.length; i++) {
+          if (editRoomType.options[i].value === room_type) {
+            editRoomType.options[i].selected = true;
+            break;
+          }
+        }
     }
 
     function handleDeleteModalShow(event) {
