@@ -5,7 +5,7 @@
     <h2>Welcome to Hotel Reservation</h2>
     <div class="card-container mt-4">
         <?php foreach ($rooms as $room) : ?>
-            <a href="#" class="text-decoration-none">
+            <a href="/room/<?= $room['id'] ?>" class="text-decoration-none">
                 <div class="card mb-4 border-0">
                     <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="card-img-top square-image" alt="Hotel Image">
                     <div class="card-body">

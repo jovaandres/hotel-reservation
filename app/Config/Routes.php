@@ -49,8 +49,8 @@ $routes->post('/review/', 'Review::create');
 $routes->put('/review/(:num)', 'Review::update/$1');
 $routes->delete('/review/(:num)', 'Review::delete/$1');
 
-$routes->get('/room/', 'Room::index');
-$routes->get('/room/(:num)', 'Room::show/$1');
+$routes->get('/room/(:id)', 'Room::index');
+$routes->get('/room/(:num)', 'Room::index/$1');
 $routes->post('/room/', 'Room::create');
 $routes->put('/room/(:num)', 'Room::update/$1');
 $routes->delete('/room/(:num)', 'Room::delete/$1');
@@ -60,6 +60,9 @@ $routes->get('/reservation/(:num)', 'Reservation::show/$1');
 $routes->post('/reservation/', 'Reservation::create');
 $routes->put('/reservation/(:num)', 'Reservation::update/$1');
 $routes->delete('/reservation/(:num)', 'Reservation::delete/$1');
+
+$routes->get('/about-us', 'About_us::index');
+$routes->get('/contact-information', 'Contact_information::index');
 
 $routes->group('admin', ["filter" => "admin"] , function($routes) {
     $routes->get('/', 'AdminDashboard::index');

@@ -19,9 +19,9 @@ class ReviewModel extends Model
         return $this->findAll();
     }
 
-    public function getReview($id)
+    public function getReview($hotel_id)
     {
-        return $this->find($id);
+        return $this->where('hotel_id', $hotel_id)->findAll();
     }
 
     public function createReview($data)
