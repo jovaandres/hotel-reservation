@@ -31,6 +31,9 @@
                         <?php if ($authenticator->getUser()->is_admin): ?>
                             <a class="dropdown-item" href="/admin">Admin Dashboard</a>
                         <?php endif; ?>
+                        <?php if (!$authenticator->getUser()->is_admin): ?>
+                            <a class="dropdown-item" href="/reservation">My Booking</a>
+                        <?php endif; ?>
                         <a class="dropdown-item" href="/user">Profile</a>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>

@@ -13,6 +13,10 @@ class Hotels extends Migration
             'name'        => ['type' => 'VARCHAR', 'constraint' => 100],
             'description' => ['type' => 'TEXT'],
             'address'     => ['type' => 'VARCHAR', 'constraint' => 255],
+            'city'        => ['type' => 'VARCHAR', 'constraint' => 100],
+            'phone'       => ['type' => 'VARCHAR', 'constraint' => 20],
+            'email'       => ['type' => 'VARCHAR', 'constraint' => 100],
+            'image'       => ['type' => 'VARCHAR', 'constraint' => 255],
             'created_at'  => ['type' => 'DATETIME', 'null' => true],
             'updated_at'  => ['type' => 'DATETIME', 'null' => true],
         ]);

@@ -11,7 +11,8 @@ class Rooms extends Migration
         $this->forge->addField([
             'id'              => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'hotel_id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
-            'room_type'       => ['type' => 'VARCHAR', 'constraint' => 100],
+            'room_type'       => ['type' => 'ENUM', 'constraint' => "'standard','deluxe','suite'"],
+            'occupancy'       => ['type' => 'INT', 'constraint' => 11],
             'price_per_night' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
             'created_at'      => ['type' => 'DATETIME', 'null' => true],
             'updated_at'      => ['type' => 'DATETIME', 'null' => true],

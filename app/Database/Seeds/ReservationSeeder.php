@@ -15,14 +15,14 @@ class ReservationSeeder extends Seeder
             $bookingCode = $faker->randomLetter() . $faker->randomLetter() . $faker->randomLetter() . $faker->randomNumber(4);
 
             $data = [
-                'user_id' => $faker->numberBetween(1, 10),
+                'user_id' => $faker->numberBetween(2, 10),
                 'room_id' => $faker->numberBetween(1, 20),
                 'booking_code' => $bookingCode,
-                'status' => $faker->randomElement(['pending', 'confirmed', 'rejected']),
+                'status' => $faker->randomElement(['pending', 'rejected', 'canceled']),
                 'payment' => $faker->randomElement(['cash', 'credit card']),
                 'check_in_date' => $faker->dateTimeBetween('+1 week', '+2 weeks')->format('Y-m-d'),
                 'check_out_date' => $faker->dateTimeBetween('+2 weeks', '+3 weeks')->format('Y-m-d'),
-                'total_price' => $faker->randomFloat(2, 50, 500),
+                'total_price' => $faker->randomFloat(2, 200000, 20000000),
                 'created_at' => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
             ];

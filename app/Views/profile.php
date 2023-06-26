@@ -26,6 +26,10 @@
           <div class="col-md-6 p-4 border shadow">
               <h5>User Information</h5>
                   <div class="mb-3">
+                      <label for="name" class="form-label small">Name</label>
+                      <input type="text" class="form-control" id="name" value="<?= $user->name ?>" readonly>
+                  </div>
+                  <div class="mb-3">
                       <label for="username" class="form-label small">Username</label>
                       <input type="text" class="form-control" id="username" value="<?= $user->username ?>" readonly>
                   </div>

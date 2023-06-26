@@ -13,7 +13,7 @@ class Reservations extends Migration
             'user_id'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'room_id'       => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true],
             'booking_code'  => ['type' => 'VARCHAR', 'constraint' => 255],
-            'status'        => ['type' => 'ENUM', 'constraint' => "'pending','confirmed','rejected'", 'default' => 'pending'],
+            'status'        => ['type' => 'ENUM', 'constraint' => "'pending','confirmed','rejected','canceled'", 'default' => 'pending'],
             'payment'       => ['type' => 'VARCHAR', 'constraint' => 255, 'default' => 'cash'],
             'check_in_date' => ['type' => 'DATE'],
             'check_out_date' => ['type' => 'DATE'],

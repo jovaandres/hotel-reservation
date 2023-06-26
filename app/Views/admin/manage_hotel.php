@@ -16,12 +16,20 @@
             <input type="text" name="name" class="form-control" id="editHotelName">
           </div>
           <div class="form-group">
-            <label for="editHotelDescription">Description</label>
-            <textarea name="description" class="form-control" id="editHotelDescription" rows="3"></textarea>
-          </div>
-          <div class="form-group">
             <label for="editHotelAddress">Address</label>
             <input type="text" name="address" class="form-control" id="editHotelAddress">
+          </div>
+          <div class="form-group">
+            <label for="editHotelPhone">Phone</label>
+            <input type="text" name="phone" class="form-control" id="editHotelPhone">
+          </div>
+          <div class="form-group">
+            <label for="editHotelEmail">Email</label>
+            <input type="text" name="email" class="form-control" id="editHotelEmail">
+          </div>
+          <div class="form-group">
+            <label for="editHotelDescription">Description</label>
+            <textarea name="description" class="form-control" id="editHotelDescription" rows="3"></textarea>
           </div>
         </div>
         <div class="modal-footer">
@@ -108,7 +116,7 @@
         <td>
           <!-- Actions buttons -->
           <!-- Edit button -->
-          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $hotel['id'] ?>" data-name="<?= $hotel['name'] ?>" data-description="<?= $hotel['description'] ?>" data-address="<?= $hotel['address'] ?>">
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $hotel['id'] ?>" data-name="<?= $hotel['name'] ?>" data-description="<?= $hotel['description'] ?>" data-address="<?= $hotel['address'] ?>" data-phone="<?= $hotel['phone'] ?>" data-email="<?= $hotel['email'] ?>">
             Edit
           </button>
           <!-- Delete button -->
@@ -134,17 +142,23 @@
         var name = button.getAttribute('data-name');
         var description = button.getAttribute('data-description');
         var address = button.getAttribute('data-address');
+        var phone = button.getAttribute('data-phone');
+        var email = button.getAttribute('data-email');
 
         var editHotelId = editModal.querySelector('#editHotelId');
         var editHotelName = editModal.querySelector('#editHotelName');
         var editHotelDescription = editModal.querySelector('#editHotelDescription');
         var editHotelAddress = editModal.querySelector('#editHotelAddress');
+        var editHotelPhone = editModal.querySelector('#editHotelPhone');
+        var editHotelEmail = editModal.querySelector('#editHotelEmail');
 
         // Set the values in the modal inputs
         editHotelId.value = id;
         editHotelName.value = name;
         editHotelDescription.value = description;
         editHotelAddress.value = address;
+        editHotelPhone.value = phone;
+        editHotelEmail.value = email;
     }
 
     function handleDeleteModalShow(event) {

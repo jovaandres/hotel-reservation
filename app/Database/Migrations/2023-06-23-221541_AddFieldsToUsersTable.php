@@ -14,6 +14,11 @@ class AddFieldsToUsersTable extends Migration
                 'constraint' => 255,
                 'null' => true
             ],
+            'phone' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true
+            ],
             'is_admin' => [
                 'type' => 'BOOLEAN',
                 'default' => false
@@ -24,6 +29,7 @@ class AddFieldsToUsersTable extends Migration
     public function down()
     {
         $this->forge->dropColumn('users', 'name');
+        $this->forge->dropColumn('users', 'phone');
         $this->forge->dropColumn('users', 'is_admin');
     }
 }

@@ -8,7 +8,7 @@ class RoomModel extends Model
 {
     protected $table = 'room';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['hotel_id', 'room_type', 'price_per_night'];
+    protected $allowedFields = ['hotel_id', 'room_type', 'price_per_night', 'occupancy'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';

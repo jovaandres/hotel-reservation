@@ -51,7 +51,10 @@ $routes->post('/room/', 'Room::create');
 $routes->put('/room/(:num)', 'Room::update/$1');
 $routes->delete('/room/(:num)', 'Room::delete/$1');
 
-$routes->get('/reservation/', 'Reservation::index');
+$routes->get('/reservation/', 'Reservation::index', ["filter" => "login"]);
+$routes->post('/reservation/pay', 'Reservation::pay', ["filter" => "login"]);
+$routes->post('/reservation/cancel', 'Reservation::cancel', ["filter" => "login"]);
+
 $routes->get('/reservation/(:num)', 'Reservation::show/$1');
 $routes->post('/reservation/', 'Reservation::create');
 $routes->put('/reservation/(:num)', 'Reservation::update/$1');

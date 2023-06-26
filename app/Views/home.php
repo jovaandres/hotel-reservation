@@ -13,8 +13,8 @@
                     <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="card-img-top square-image" alt="Hotel Image">
                     <div class="card-body">
                         <p class="card-title"><b><?= $room['hotel_name'] ?></b></p>
-                        <p class="card-text"><?= $room['room_type'] ?></p>
-                        <p class="card-text"><b>$<?= $room['price_per_night'] ?> / night</b></p>
+                        <p class="card-text"><i><?= $room['room_type'] ?></i></p>
+                        <p class="card-text"><b>Rp <?= number_format($room['price_per_night'], 0, '.', '.') ?> / malam</b></p>
                     </div>
                 </div>
             </a>

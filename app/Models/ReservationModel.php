@@ -8,7 +8,7 @@ class ReservationModel extends Model
 {
     protected $table = 'reservation';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['user_id', 'room_id', 'check_in_date', 'check_out_date', 'total_price'];
+    protected $allowedFields = ['user_id', 'room_id', 'booking_code', 'status', 'payment', 'check_in_date', 'check_out_date', 'total_price'];
 
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
@@ -22,9 +22,13 @@ class ReservationModel extends Model
             ->findAll();
     }
 
-    public function getReservation($id)
+    public function getReservation($user_id)
     {
-        return $this->find($id);
+        return $this->select('reservation.*, room.room_type, hotel.name as hotel_name')
+            ->join('room', 'room.id = reservation.room_id')
+            ->join('hotel', 'hotel.id = room.hotel_id')
+            ->where('reservation.user_id', $user_id)
+            ->findAll();
     }
 
     public function createReservation($data)
@@ -34,6 +38,7 @@ class ReservationModel extends Model
 
     public function updateReservation($id, $data)
     {
+        var_dump($data);
         return $this->update($id, $data);
     }
 

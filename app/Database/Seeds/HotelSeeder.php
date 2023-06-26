@@ -9,16 +9,21 @@ class HotelSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Factory::create();
+        $faker = Factory::create('id_ID');
+        $fakerSec = Factory::create();
 
         $data = [];
 
         // Generate 5 fake hotel records
         for ($i = 0; $i < 10; $i++) {
             $data[] = [
-                'name'        => $faker->company,
+                'name'        => $fakerSec->company,
                 'description' => $faker->paragraph,
                 'address'     => $faker->address,
+                'city'        => $faker->city,
+                'phone'       => $faker->phoneNumber,
+                'email'       => $faker->email,
+                'image'       => 'https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg',
                 'created_at'  => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
                 'updated_at'  => $faker->dateTimeThisMonth()->format('Y-m-d H:i:s'),
             ];

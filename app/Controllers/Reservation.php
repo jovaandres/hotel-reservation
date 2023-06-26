@@ -11,13 +11,45 @@ class Reservation extends Controller
     use ResponseTrait;
 
     public function index()
-    {
+    {   
+        $authenticator = auth('session')->getAuthenticator();
+        $user = $authenticator->getUser();
+
         $model = new ReservationModel();
-        $reservations = $model->getReservations();
+        $reservations = $model->getReservation($user->id);
 
         return view('reservation', [
             'bookings' => $reservations,
         ]);
+    }
+
+    public function pay()
+    {
+        $model = new ReservationModel();
+
+        $booking_id = $this->request->getPost('id');
+
+        $data = [
+            'status' => 'pending',
+        ];
+
+        $model->updateReservation($booking_id, $data);
+
+        return redirect()->to('/reservation')->with('success', 'Payment created.');
+    }
+
+    public function cancel()
+    {
+        $booking_id = $this->request->getPost('id');
+
+        $data = [
+            'status' => 'canceled',
+        ];
+
+        $model = new ReservationModel();
+        $model->updateReservation($booking_id, $data);
+
+        return redirect()->to('/reservation')->with('success', 'Booking cancelled.');
     }
 
     public function show($id)

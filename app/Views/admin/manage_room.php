@@ -97,7 +97,7 @@
         <th scope="row"><?= $key + 1 ?></th>
         <td><?= $room['hotel_id'] ?></td>
         <td><?= $room['room_type'] ?></td>
-        <td><?= $room['price_per_night'] ?></td>
+        <td>Rp <?= number_format($room['price_per_night'], 0, '.', '.') ?></td>
         <td>
           <!-- Actions buttons -->
           <!-- Edit button -->
