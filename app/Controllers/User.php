@@ -12,74 +12,99 @@ class User extends Controller
 
     public function index()
     {
-        $authenticator = auth('session')->getAuthenticator();
-        $user = $authenticator->getUser();
+        try {
+            $authenticator = auth('session')->getAuthenticator();
+            $user = $authenticator->getUser();
 
-        return view('profile', ['user' => $user]);
+            return view('profile', ['user' => $user]);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
+        }
     }
 
     public function changePassword()
     {
-        $authenticator = auth('session')->getAuthenticator();
-        $currentUser = $authenticator->getUser();
+        try {
+            $authenticator = auth('session')->getAuthenticator();
+            $currentUser = $authenticator->getUser();
 
-        $credentials = [
-            'email'    => $currentUser->email,
-            'password' => $this->request->getPost('currentPassword')
-        ];
+            $credentials = [
+                'email'    => $currentUser->email,
+                'password' => $this->request->getPost('currentPassword')
+            ];
 
-        $validCreds = auth()->check($credentials);
+            $validCreds = auth()->check($credentials);
 
-        if (! $validCreds->isOK()) {
-            return redirect()->back()->with('error', $validCreds->reason());
+            if (! $validCreds->isOK()) {
+                return redirect()->back()->with('error', $validCreds->reason());
+            }
+
+            $users = auth()->getProvider();
+            $user = $users->findById($currentUser->id);
+
+            $user->password = $this->request->getPost('newPassword');
+            $users->save($user); 
+
+            return redirect()->back()->with('success', 'Password changed successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $users = auth()->getProvider();
-        $user = $users->findById($currentUser->id);
-
-        $user->password = $this->request->getPost('newPassword');
-        $users->save($user); 
-
-        return redirect()->back()->with('success', 'Password changed successfully.');
     }
 
     public function forgetPassword()
     {
-        $email = $this->request->getPost('email');
+        try {
+            $email = $this->request->getPost('email');
 
-        $users = auth()->getProvider();
-        $user = $users->findByCredentials(['email' => $email]);
+            $users = auth()->getProvider();
+            $user = $users->findByCredentials(['email' => $email]);
 
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
+            if (!$user) {
+                return redirect()->back()->with('error', 'User not found.');
+            }
+
+            return view('auth/reset', ['user' => $user]);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return view('auth/reset', ['user' => $user]);
     }
 
     public function resetPassword()
     {
-        $email = $this->request->getPost('email');
+        try {
+            $email = $this->request->getPost('email');
 
-        $users = auth()->getProvider();
-        $user = $users->findByCredentials(['email' => $email]);
+            $users = auth()->getProvider();
+            $user = $users->findByCredentials(['email' => $email]);
 
-        $user->password = $this->request->getPost('password');
-        $users->save($user);
+            $user->password = $this->request->getPost('password');
+            $users->save($user);
 
-        return redirect()->to('/login')->with('success', 'Password reset successfully.');
+            return redirect()->to('/login')->with('success', 'Password reset successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->to('/login')->with('error', $e->getMessage());
+        }
     }
 
     public function show($id)
     {
-        $model = new UserModel();
-        $user = $model->getUserById($id);
+        try {
+            $model = new UserModel();
+            $user = $model->getUserById($id);
 
-        if ($user === null) {
-            return $this->failNotFound('User not found.');
+            if ($user === null) {
+                return $this->failNotFound('User not found.');
+            }
+
+            return $this->respond($user);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
         }
-
-        return $this->respond($user);
     }
 
     public function create()
@@ -89,37 +114,47 @@ class User extends Controller
 
     public function updateProfile()
     {
-        $db = db_connect();
+        try {
+            $db = db_connect();
 
-        $authenticator = auth('session')->getAuthenticator();
-        $user = $authenticator->getUser();
+            $authenticator = auth('session')->getAuthenticator();
+            $user = $authenticator->getUser();
 
-        if ($user === null) {
-            return redirect()->back()->with('error', 'User not found.');
+            if ($user === null) {
+                return redirect()->back()->with('error', 'User not found.');
+            }
+
+            $db->table('users')->where('id', $user->id)->update([
+                'name' => $this->request->getPost('name'),
+                'phone' => $this->request->getPost('phone'),
+            ]);
+
+            return redirect()->back()->with('success', 'Profile updated successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $db->table('users')->where('id', $user->id)->update([
-            'name' => $this->request->getPost('name'),
-            'phone' => $this->request->getPost('phone'),
-        ]);
-
-        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
     public function delete()
     {
-        $users = auth()->getProvider();
+        try {
+            $users = auth()->getProvider();
 
-        $id = $this->request->getPost('id');
+            $id = $this->request->getPost('id');
 
-        $user = $users->findById($id);
+            $user = $users->findById($id);
 
-        if ($user === null) {
-            return redirect()->back()->with('error', 'User not found.');
+            if ($user === null) {
+                return redirect()->back()->with('error', 'User not found.');
+            }
+
+            $users->delete($user->id);
+
+            return redirect()->back()->with('success', 'User deleted.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $users->delete($user->id);
-
-        return redirect()->back()->with('success', 'User deleted.');
     }
 }

@@ -24,7 +24,23 @@
 <body>
     <!-- Include the navbar -->
     <?= view('templates/navbar') ?>
-
+    <?php if (session('success') !== null) : ?>
+                    <div class="alert alert-success" role="alert"><?= session('success') ?></div>
+                <?php endif ?>
+                <?php if (session('error') !== null) : ?>
+                <div class="alert alert-danger small" role="alert"><?= session('error') ?></div>
+                <?php elseif (session('errors') !== null) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php if (is_array(session('errors'))) : ?>
+                            <?php foreach (session('errors') as $error) : ?>
+                                <?= $error ?>
+                                <br>
+                            <?php endforeach ?>
+                        <?php else : ?>
+                            <?= session('errors') ?>
+                        <?php endif ?>
+                    </div>
+                <?php endif ?>
     <!-- Page content -->
     <?= $this->renderSection('content') ?>
 

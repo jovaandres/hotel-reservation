@@ -2,19 +2,22 @@
 
 namespace App\Controllers;
 
-use App\Models\HotelModel;
 use App\Models\RoomModel;
 
 class Home extends BaseController
 {
     public function index()
     {
-        $roomModel = new RoomModel();
+        try {
+            $roomModel = new RoomModel();
+            $rooms = $roomModel->getRoomsAndHotels();
 
-        $rooms = $roomModel->getRoomsAndHotels();
-
-        return view('home', [
-            'rooms' => $rooms,
-        ]);
+            return view('home', [
+                'rooms' => $rooms,
+            ]);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return view('error', ['message' => $e->getMessage()]);
+        }
     }
 }

@@ -14,131 +14,155 @@ class Room extends Controller
 
     public function index($id)
     {
-        $model = new RoomModel();
-        $room = $model->getRoomAndImage($id);
+        try {
+            $model = new RoomModel();
+            $room = $model->getRoomAndImage($id);
 
-        $modelReview = new ReviewModel();
-        $reviews = $modelReview->getReview($room['hotel_id']);
+            if ($room === null) {
+                return view('404');
+            }
 
-        $modelHotel = new HotelModel();
-        $hotel = $modelHotel->getHotel($room['hotel_id']);
+            $modelReview = new ReviewModel();
+            $reviews = $modelReview->getReview($room['hotel_id']);
 
-        return view('room', [
-            'rooms' => $room,
-            'reviews' => $reviews,
-            'hotel' => $hotel
-        ]);
+            $modelHotel = new HotelModel();
+            $hotel = $modelHotel->getHotel($room['hotel_id']);
+
+            return view('room', [
+                'rooms' => $room,
+                'reviews' => $reviews,
+                'hotel' => $hotel
+            ]);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
+        }
     }
 
     public function create()
     {
-        $hotel_id = $this->request->getPost('hotel_id');
+        try {
+            $hotel_id = $this->request->getPost('hotel_id');
 
-        $model = new RoomModel();
+            $hotelModel = new HotelModel();
+            $hotel = $hotelModel->getHotel($hotel_id);
 
-        $hotelModel = new HotelModel();
-        $hotel = $hotelModel->getHotel($hotel_id);
+            if ($hotel === null) {
+                return $this->failNotFound('Hotel not found.');
+            }
 
-        if ($hotel === null) {
-            return $this->failNotFound('Hotel not found.');
+            $model = new RoomModel();
+
+            $data = [
+                'hotel_id' => $hotel_id,
+                'room_type' => $this->request->getPost('room_type'),
+                'occupancy' => $this->request->getPost('occupancy'),
+                'price_per_night' => $this->request->getPost('price_per_night'),
+            ];
+
+            $model->insert($data);
+
+            return redirect()->back()->with('success', 'Room created.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $data = [
-            'hotel_id' => $hotel_id,
-            'room_type' => $this->request->getPost('room_type'),
-            'occupancy' => $this->request->getPost('occupancy'),
-            'price_per_night' => $this->request->getPost('price_per_night'),
-        ];
-
-        $model->insert($data);
-
-        return redirect()->back()->with('success', 'Room created.');
     }
 
     public function update()
     {
-        $model = new RoomModel();
+        try {
+            $model = new RoomModel();
 
-        $id = $this->request->getPost('id');
-        $room_type = $this->request->getPost('room_type');
-        $occupancy = $this->request->getPost('capacity');
-        $price_per_night = $this->request->getPost('price_per_night');
+            $id = $this->request->getPost('id');
+            $room_type = $this->request->getPost('room_type');
+            $occupancy = $this->request->getPost('capacity');
+            $price_per_night = $this->request->getPost('price_per_night');
 
-        $room = $model->getRoom($id);
+            $room = $model->getRoom($id);
 
-        if ($room === null) {
-            return redirect()->back()->with('error', 'Room not found.');
+            if ($room === null) {
+                return redirect()->back()->with('error', 'Room not found.');
+            }
+
+            $data = [
+                'room_type' => $room_type,
+                'occupancy' => $occupancy,
+                'price_per_night' => $price_per_night
+            ];
+
+            $model->updateRoom($id, $data);
+
+            return redirect()->back()->with('success', 'Room updated.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $data = [
-            'room_type' => $room_type,
-            'occupancy' => $occupancy,
-            'price_per_night' => $price_per_night
-        ];
-
-        $model->updateRoom($id, $data);
-
-        return redirect()->back()->with('success', 'Room updated.');
     }
 
     public function delete()
     {
-        $model = new RoomModel();
+        try {
+            $model = new RoomModel();
 
-        $id = $this->request->getPost('id');
+            $id = $this->request->getPost('id');
 
-        $room = $model->getRoom($id);
+            $room = $model->getRoom($id);
 
-        if ($room === null) {
-            return redirect()->back()->with('error', 'Room not found.');
+            if ($room === null) {
+                return redirect()->back()->with('error', 'Room not found.');
+            }
+
+            $model->deleteRoom($id);
+
+            return redirect()->back()->with('success', 'Room deleted.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $model->deleteRoom($id);
-
-        return redirect()->back()->with('success', 'Room deleted.');
     }
 
     public function showReview($id)
     {
-        $model = new ReviewModel();
-        $review = $model->getReview($id);
+        try {
+            $model = new ReviewModel();
+            $review = $model->getReview($id);
 
-        if ($review === null) {
-            return $this->failNotFound('Review not found.');
+            if ($review === null) {
+                return $this->failNotFound('Review not found.');
+            }
+
+            return $this->respond($review);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
         }
-
-        return $this->respond($review);
     }
 
     public function createReview()
     {
-        $model = new ReviewModel();
+        try {
+            $model = new ReviewModel();
 
-        $authenticator = auth('session')->getAuthenticator();
-        $currentUser = $authenticator->getUser();
+            $authenticator = auth('session')->getAuthenticator();
+            $currentUser = $authenticator->getUser();
 
-        $room_id = $this->request->getPost('room_id');
+            $room_id = $this->request->getPost('room_id');
 
-        $data = [
-            'rating' => $this->request->getPost('rating'),
-            'comment' => $this->request->getPost('comment'),
-            'hotel_id' => $this->request->getPost('hotel_id'),
-            'user_id' => $currentUser->id
-        ];
+            $data = [
+                'rating' => $this->request->getPost('rating'),
+                'comment' => $this->request->getPost('comment'),
+                'hotel_id' => $this->request->getPost('hotel_id'),
+                'user_id' => $currentUser->id
+            ];
 
-        $model->createReview($data);
+            $model->createReview($data);
 
-        // Redirect back to the room detail page after creating the review
-        return redirect()->to('/room/' . $room_id);
-    }
-
-    public function updateReview($id)
-    {
-        // Code to update an existing review
-    }
-
-    public function deleteReview($id)
-    {
-        // Code to delete a review
+            // Redirect back to the room detail page after creating the review
+            return redirect()->back()->with('success', 'Review created.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->to('/room/' . $room_id)->with('error', $e->getMessage());
+        }
     }
 }

@@ -12,82 +12,107 @@ class Hotel extends BaseController
 
     public function index()
     {
-        $model = new HotelModel();
-        $hotels = $model->getHotels();
+        try {
+            $model = new HotelModel();
+            $hotels = $model->getHotels();
 
-        return $this->respond($hotels);
+            return $this->respond($hotels);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
+        }
     }
 
     public function show($id)
     {
-        $model = new HotelModel();
-        $hotel = $model->getHotel($id);
+        try {
+            $model = new HotelModel();
+            $hotel = $model->getHotel($id);
 
-        if ($hotel === null) {
-            return $this->failNotFound('Hotel not found.');
+            if ($hotel === null) {
+                return $this->redirect()->back()->with('error', 'Hotel not found.');
+            }
+
+            return $this->respond($hotel);
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
         }
-
-        return $this->respond($hotel);
     }
 
     public function create()
     {
-        $model = new HotelModel();
+        try {
+            $model = new HotelModel();
 
-        $name = $this->request->getPost('name');
-        $description = $this->request->getPost('description');
-        $address = $this->request->getPost('address');
+            $name = $this->request->getPost('name');
+            $description = $this->request->getPost('description');
+            $address = $this->request->getPost('address');
 
-        $data = [
-            'name' => $name,
-            'description' => $description,
-            'address' => $address,
-            'image_id' => rand(1, 10),
-        ];
+            $data = [
+                'name' => $name,
+                'description' => $description,
+                'address' => $address,
+                'image_id' => rand(1, 10),
+            ];
 
-        $model->insert($data);
+            $model->insert($data);
 
-        return redirect()->back()->with('success', 'Hotel created.');
+            return redirect()->back()->with('success', 'Hotel created.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function update()
     {
-        $model = new HotelModel();
+        try {
+            $model = new HotelModel();
 
-        $id = $this->request->getPost('id');
-        $name = $this->request->getPost('name');
-        $address = $this->request->getPost('address');
+            $id = $this->request->getPost('id');
+            $name = $this->request->getPost('name');
+            $address = $this->request->getPost('address');
 
-        $hotel = $model->getHotel($id);
+            $hotel = $model->getHotel($id);
 
-        if ($hotel === null) {
-            return redirect()->back()->with('error', 'Hotel not found.');
+            if ($hotel === null) {
+                return redirect()->back()->with('error', 'Hotel not found.');
+            }
+
+            $data = [
+                'name' => $name,
+                'address' => $address,
+            ];
+
+            $model->updateHotel($id, $data);
+
+            return redirect()->back()->with('success', 'Hotel updated.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $data = [
-            'name' => $name,
-            'address' => $address,
-        ];
-
-        $model->updateHotel($id, $data);
-
-        return redirect()->back()->with('success', 'Hotel updated.');
     }
 
     public function delete()
     {
-        $model = new HotelModel();
+        try {
+            $model = new HotelModel();
 
-        $id = $this->request->getPost('id');
+            $id = $this->request->getPost('id');
 
-        $hotel = $model->getHotel($id);
+            $hotel = $model->getHotel($id);
 
-        if ($hotel === null) {
-            return redirect()->back()->with('error', 'Hotel not found.');
+            if ($hotel === null) {
+                return redirect()->back()->with('error', 'Hotel not found.');
+            }
+
+            $model->deleteHotel($id);
+
+            return redirect()->back()->with('success', 'Hotel deleted.');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $model->deleteHotel($id);
-
-        return redirect()->back()->with('success', 'Hotel deleted.');
     }
 }
