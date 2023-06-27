@@ -40,7 +40,7 @@
                     <p class="card-text price-per-night mt-3"><b>Harga Per Malam: </b>Rp <?= number_format($rooms['price_per_night'], 0, '.', '.') ?></p>
                 </div>
             </div>
-            <?php if (!$authenticator->getUser()->is_admin) : ?>
+            <?php if ($isLoggedIn && !$authenticator->getUser()->is_admin) : ?>
                 <div class="text-center my-4">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservationModal">Make a Reservation</button>
                 </div>
@@ -73,7 +73,7 @@
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <?php if (!$authenticator->getUser()->is_admin) : ?>
+                    <?php if ($isLoggedIn && !$authenticator->getUser()->is_admin) : ?>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a Review</button>
                         </div>
