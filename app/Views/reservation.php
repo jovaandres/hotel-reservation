@@ -1,23 +1,49 @@
 <?= $this->extend('templates/layout') ?>
 
 <?= $this->section('content') ?>
+    <!-- Payment Images -->
+    <div class="modal fade" id="transferEvidenceModal" tabindex="-1" role="dialog" aria-labelledby="transferEvidenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transferEvidenceModalLabel">Transfer Evidence</h5>
+                </div>
+                <div class="modal-body">
+                    <img id="transferEvidenceImage" src="" class="img-fluid" alt="Transfer Evidence">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit Modal -->
     <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Upload Payment</h5>
-            </div>
-            <div class="modal-body">
-                <form action="reservation/pay" method="POST">
-                <input type="hidden" name="id" id="bookingId">
-                <h6>Booking Code: <span id="bookingCode"></span></h6>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Upload Payment</h5>
                 </div>
-                <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Upload</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </form>
-            </div>
+                <div class="modal-body">
+                    <form action="reservation/pay" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="bookingId">
+                        <h6>Booking Code: <b><span id="bookingCode"></span></b></h6>
+                        <div class="form-group">
+                            <label for="transfer_evidence">Evidence of Transfer</label>
+                            <input type="file" class="form-control" id="transfer_evidence" name="transfer_evidence" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select class="form-control" id="paymentMethod" name="payment_method" required>
+                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="digital">Digital Payment</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -51,7 +77,7 @@
                     <?php foreach ($bookings as $booking) : ?>
                         <tr>
                             <td>
-                                <img src="https://static.theprint.in/wp-content/uploads/2022/10/Hotel.jpg" class="img-thumbnail" alt="Hotel Image" style="width: 100px; height: 100px;object-fit: cover;">
+                                <img src="<?= $booking['hotel_image'] ?>" class="img-thumbnail" alt="Hotel Image" style="width: 100px; height: 100px;object-fit: cover;">
                             </td>
                             <td>
                                 <p><b><?= $booking['hotel_name'] ?></b></p>
@@ -61,6 +87,9 @@
                             <td>
                                 <p><?= strtoupper($booking['booking_code']) ?></p>
                                 <p><?= strtoupper($booking['status']) ?></p>
+                                <?php if ($booking['status'] == "transferred"): ?>
+                                    <p>via <?= $booking['payment'] ?></p>
+                                <?php endif; ?>
                             </td>
                             <td>Rp <?= number_format($booking['total_price'], 0, '.', '.') ?></td>
                             <td>
@@ -72,6 +101,11 @@
                                 <?php if ($booking['status'] == "pending"): ?>
                                     <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelBookingModal" data-id="<?= $booking['id'] ?>">
                                         Cancel
+                                    </button>
+                                <?php endif; ?>
+                                <?php if ($booking['status'] == "transferred"): ?>
+                                    <button class="btn btn-sm btn-primary btn-payment-check" data-bs-toggle="modal" data-bs-target="#transferEvidenceModal" data-transfer-evidence-url="<?= base_url("uploads/payment/" . $booking['transfer_evidence']) ?>">
+                                        Check Payment
                                     </button>
                                 <?php endif; ?>
                             </td>
@@ -97,7 +131,7 @@
 
         // Set the values in the modal inputs
         bookingId.value = id;
-        bookingCode.innerHTML = code;
+        bookingCode.innerHTML = code.toUpperCase();
     }
 
     function handleCancelBooking(event) {
@@ -113,5 +147,15 @@
     // Attach event listener to the paymentModal show event
     paymentModal.addEventListener('show.bs.modal', handeCreatePayment);
     cancelBookingModal.addEventListener('show.bs.modal', handleCancelBooking);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var button = document.querySelector('.btn-payment-check');
+
+        button.addEventListener('click', function() {
+            var imageUrl = button.dataset.transferEvidenceUrl;
+            var imageElement = document.getElementById('transferEvidenceImage');
+            imageElement.src = imageUrl;
+        });
+    });
 </script>
 <?= $this->endSection() ?>

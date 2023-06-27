@@ -15,6 +15,7 @@ class Reservations extends Migration
             'booking_code'  => ['type' => 'VARCHAR', 'constraint' => 255],
             'status'        => ['type' => 'ENUM', 'constraint' => "'pending', 'transferred', 'confirmed','rejected','canceled'", 'default' => 'pending'],
             'payment'       => ['type' => 'VARCHAR', 'constraint' => 255, 'default' => 'cash'],
+            'transfer_evidence' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
             'check_in_date' => ['type' => 'DATE'],
             'check_out_date' => ['type' => 'DATE'],
             'total_price'   => ['type' => 'DECIMAL', 'constraint' => '10,2'],

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
+use CodeIgniter\Shield\Models\UserModel;
 
 class User extends Controller
 {
@@ -86,9 +87,26 @@ class User extends Controller
         // Code to create a new user
     }
 
-    public function update($id)
+    public function updateProfile()
     {
-        // Code to update an existing user
+        $users = new UserModel();
+
+        $email = $this->request->getPost('email');
+
+        $user = $users->findByCredentials(['email' => $email]);
+
+        if ($user === null) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'phone' => $this->request->getPost('phone'),
+        ];
+
+        $users->update($user->id, $data);
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
     public function delete()

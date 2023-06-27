@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <div class="container mt-4">
     <h1>Contact Information</h1>
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-6">
             <h3>Location</h3>
             <p>123 Example Street<br>City, State, Country<br>Postal Code</p>

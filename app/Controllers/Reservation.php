@@ -28,14 +28,25 @@ class Reservation extends Controller
         $model = new ReservationModel();
 
         $booking_id = $this->request->getPost('id');
+        $payment_method = $this->request->getPost('payment_method');
+        $transferEvidence = $this->request->getFile('transfer_evidence');
 
-        $data = [
-            'status' => 'transferred',
-        ];
+        if ($transferEvidence->isValid() && !$transferEvidence->hasMoved()) {
+            $newName = $transferEvidence->getRandomName();
+            $transferEvidence->move('./uploads/payment', $newName);
+            
+            $paymentData = [
+                'status' => 'transferred',
+                'payment' => $payment_method,
+                'transfer_evidence' => $newName,
+            ];
 
-        $model->updateReservation($booking_id, $data);
+            $model->updateReservation($booking_id, $paymentData);
 
-        return redirect()->to('/reservation')->with('success', 'Payment created.');
+            return redirect()->to('/reservation')->with('success', 'Payment created.');
+        }
+
+        return redirect()->to('/reservation')->with('error', 'Payment failed.');
     }
 
     public function cancel()

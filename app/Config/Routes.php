@@ -90,6 +90,7 @@ $routes->group('admin', ["filter" => "admin"] , function($routes) {
     });
 });
 
+$routes->post('/update-profile', 'User::updateProfile');
 $routes->post('/change-password', 'User::changePassword');
 
 $routes->get('/forget', 'Authentication::forget');
