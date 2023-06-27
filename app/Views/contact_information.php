@@ -5,16 +5,16 @@
     <h1>Contact Information</h1>
     <div class="row mt-4">
         <div class="col-md-6">
-            <h3>Location</h3>
-            <p>123 Example Street<br>City, State, Country<br>Postal Code</p>
+            <h3>Lokasi</h3>
+            <p>Perk Tomang Tol Raya Bl A-1/4<br>DKI Jakarta, Jakarta, Indonesia<br>11520</p>
             <h3>Email</h3>
-            <p>info@example.com</p>
-            <h3>Phone</h3>
-            <p>+1 123-456-7890</p>
+            <p>futurehotel@email.com</p>
+            <h3>Nomor Telepon </h3>
+            <p>+62 823 4567 890</p>
         </div>
         <div class="col-md-6">
-            <h3>Working Hours</h3>
-            <p>Monday - Friday: 9am - 5pm<br>Saturday: 10am - 4pm<br>Sunday: Closed</p>
+            <h3>Jam Kerja</h3>
+            <p>Senin - Jumat: 09.00 - 17.00<br>Sabtu: 10.00 - 16.00<br>Minggu: Tutup</p>
         </div>
     </div>
 </div>

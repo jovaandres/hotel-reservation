@@ -1,4 +1,8 @@
 <!-- Views/room.php -->
+<?php
+    $authenticator = auth('session')->getAuthenticator();
+    $isLoggedIn = $authenticator->loggedIn();
+?>
 
 <?= $this->extend('templates/layout') ?>
 
@@ -31,14 +35,16 @@
             <div class="card mb-4 w-100 border-0">
                 <div class="card-body">
                     <h5 class="card-title">Room Information</h5>
-                    <p class="card-text description"><b>Description:</b> <?= $hotel['description'] ?></p>
-                    <p class="card-text room-type mt-3"><b>Room Type:</b> <?= $rooms['room_type'] ?></p>
-                    <p class="card-text price-per-night mt-3"><b>Price per Night: </b>Rp <?= number_format($rooms['price_per_night'], 0, '.', '.') ?></p>
+                    <p class="card-text description"><?= $hotel['description'] ?></p>
+                    <p class="card-text room-type mt-3"><b>Tipe Kamar:</b> <?= $rooms['room_type'] ?></p>
+                    <p class="card-text price-per-night mt-3"><b>Harga Per Malam: </b>Rp <?= number_format($rooms['price_per_night'], 0, '.', '.') ?></p>
                 </div>
             </div>
-            <div class="text-center my-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservationModal">Make a Reservation</button>
-            </div>
+            <?php if (!$authenticator->getUser()->is_admin) : ?>
+                <div class="text-center my-4">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservationModal">Make a Reservation</button>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="col-md-4">
             <div class="card card-review p-3">
@@ -67,9 +73,11 @@
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a Review</button>
-                    </div>
+                    <?php if (!$authenticator->getUser()->is_admin) : ?>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#reviewModal">Write a Review</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -134,7 +142,7 @@
                         <label for="check-out-date" class="form-label">Check-out Date:</label>
                         <input type="date" class="form-control" id="check-out-date" name="check_out_date" required>
                     </div>
-                    <input type="hidden" name="room_id" value="<?= $rooms['id'] ?>">
+                    <input type="hidden" name="room_id" value="<?= $rooms['room_id'] ?>">
                     <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
                     <button type="submit" class="btn btn-primary">Make Reservation</button>
                 </form>
@@ -145,5 +153,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Get the date inputs
+    var checkInDateInput = document.getElementById("check-in-date");
+    var checkOutDateInput = document.getElementById("check-out-date");
+
+    // Set the minimum check-in date as tomorrow
+    var minCheckInDate = new Date();
+    minCheckInDate.setDate(minCheckInDate.getDate() + 1);
+    var minCheckInDateString = minCheckInDate.toISOString().split('T')[0];
+    checkInDateInput.min = minCheckInDateString;
+
+    // Function to calculate the minimum check-out date based on the selected check-in date
+    function setMinCheckOutDate() {
+        var selectedCheckInDate = new Date(checkInDateInput.value);
+        var minCheckOutDate = new Date(selectedCheckInDate);
+        minCheckOutDate.setDate(minCheckOutDate.getDate() + 1);
+        var minCheckOutDateString = minCheckOutDate.toISOString().split('T')[0];
+        checkOutDateInput.min = minCheckOutDateString;
+        checkOutDateInput.value = minCheckOutDateString;
+    }
+
+    // Add event listener to check-in date input
+    checkInDateInput.addEventListener("change", setMinCheckOutDate);
+</script>
 
 <?= $this->endSection() ?>

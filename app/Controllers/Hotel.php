@@ -109,7 +109,7 @@ class Hotel extends BaseController
 
             $model->deleteHotel($id);
 
-            return redirect()->back()->with('success', 'Hotel deleted.');
+            return redirect()->to('admin/hotel')->with('success', 'Hotel deleted.');
         } catch (\Exception $e) {
             // Handle the exception
             return redirect()->back()->with('error', $e->getMessage());

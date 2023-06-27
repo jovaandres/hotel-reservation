@@ -11,9 +11,9 @@
         </div>
         <div class="col-md-6">
             <h3>Our Mission</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel ligula vitae purus gravida laoreet. Curabitur luctus nunc vel odio maximus, vel dignissim neque tincidunt. Fusce sit amet sapien tristique, fringilla nunc id, suscipit arcu.</p>
+            <p>Untuk memberikan pengalaman keramahtamahan yang luar biasa yang melebihi harapan tamu kami dan menciptakan kenangan abadi. Kami berkomitmen untuk memberikan layanan yang dipersonalisasi, akomodasi mewah, dan fasilitas luar biasa sambil mempertahankan standar kualitas, kenyamanan, dan keberlanjutan tertinggi.</p>
             <h3 class="mt-5">Our Vision</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel ligula vitae purus gravida laoreet. Curabitur luctus nunc vel odio maximus, vel dignissim neque tincidunt. Fusce sit amet sapien tristique, fringilla nunc id, suscipit arcu.</p>
+            <p>To be the leading hotel company recognized globally for our unwavering commitment to excellence in hospitality. We strive to create a brand synonymous with luxury, innovation, and unparalleled guest satisfaction. Our vision is to inspire and delight travelers by curating exceptional experiences and setting new benchmarks in the industry.</p>
         </div>
     </div>
 </div>
