@@ -11,11 +11,6 @@
         * {
             font-family: 'Montserrat', sans-serif;
         }
-        
-        body {
-            background: rgb(255,90,95);
-            background: linear-gradient(9deg, rgba(255,90,95,1) 0%, rgba(196,17,109,1) 50%, rgba(0,166,153,1) 100%);
-        }
     </style>
 </head>
 <body>

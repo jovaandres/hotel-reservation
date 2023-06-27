@@ -139,3 +139,20 @@ button {
 .extra .logout:hover {
   color: rgb(255, 73, 73);
 }
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .action-container {
+    flex-direction: column;
+  }
+
+  .booking-image {
+    display: none ;
+  }
+}

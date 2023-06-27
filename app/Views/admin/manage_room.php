@@ -9,7 +9,7 @@
         <h5 class="modal-title" id="editModalLabel">Edit Room</h5>
       </div>
       <div class="modal-body">
-        <form action="room/edit" method="POST">
+        <form action="<?= base_url('admin/room/edit') ?>" method="POST">
           <input type="hidden" name="id" id="editRoomId">
           <div class="form-group">
             <label for="editRoomType">Room Type</label>
@@ -49,7 +49,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <form action="room/delete" method="POST">
+        <form action="<?= base_url('admin/room/delete') ?>" method="POST">
           <input type="hidden" name="id" id="deleteRoomId">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
@@ -66,7 +66,7 @@
         <h5 class="modal-title" id="createModalLabel">Create Room</h5>
       </div>
       <div class="modal-body">
-        <form action="room/add" method="POST">
+        <form action="<?= base_url('admin/room/add') ?>" method="POST">
           <div class="form-group">
             <label for="createHotelId">Hotel Name</label>
             <select name="hotel_id" class="form-control" id="createHotelId" required>

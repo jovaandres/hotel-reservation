@@ -23,7 +23,7 @@
                     <h5 class="modal-title" id="paymentModalLabel">Upload Payment</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="reservation/pay" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('reservation/pay') ?>" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id" id="bookingId">
                         <h6>Booking Code: <b><span id="bookingCode"></span></b></h6>
                         <div class="form-group">
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="reservation/cancel" method="POST">
+                <form action="<?= base_url('reservation/cancel') ?>" method="POST">
                 <input type="hidden" name="id" id="cancelBookingId">
                 <button type="submit" class="btn btn-danger">Confirm</button>
                 </form>

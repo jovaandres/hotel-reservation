@@ -8,7 +8,7 @@ class HotelModel extends Model
 {
     protected $table = 'hotel';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'description', 'address', 'city', 'phone', 'email', 'image'];
+    protected $allowedFields = ['name', 'description', 'address', 'city', 'phone', 'email', 'image_id'];
 
     public function getHotels()
     {

@@ -25,7 +25,7 @@
                 <?php endif ?>
                 <div class="col-md-6 p-4 border shadow">
                     <h5>User Information</h5>
-                    <form action="/update-profile" method="POST">
+                    <form action="<?= base_url('update-profile') ?>" method="POST">
                         <div class="mb-3">
                             <label for="name" class="form-label small">Name</label>
                             <input type="text" name="name" class="form-control" id="name" value="<?= $user->name ?>" readonly>
@@ -55,7 +55,7 @@
                 </div>
           <div class="col-md-6 mt-5 p-4 border shadow">
               <h5>Change Password</h5>
-              <form action="/change-password" method="POST">
+              <form action="<?= base_url('change-password') ?>" method="POST">
                   <div class="mb-3">
                       <label for="currentPassword" class="form-label small">Current Password</label>
                       <input type="password" name="currentPassword" class="form-control" id="currentPassword" required>

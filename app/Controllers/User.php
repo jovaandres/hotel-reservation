@@ -89,22 +89,19 @@ class User extends Controller
 
     public function updateProfile()
     {
-        $users = new UserModel();
+        $db = db_connect();
 
-        $email = $this->request->getPost('email');
-
-        $user = $users->findByCredentials(['email' => $email]);
+        $authenticator = auth('session')->getAuthenticator();
+        $user = $authenticator->getUser();
 
         if ($user === null) {
             return redirect()->back()->with('error', 'User not found.');
         }
 
-        $data = [
+        $db->table('users')->where('id', $user->id)->update([
             'name' => $this->request->getPost('name'),
             'phone' => $this->request->getPost('phone'),
-        ];
-
-        $users->update($user->id, $data);
+        ]);
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }

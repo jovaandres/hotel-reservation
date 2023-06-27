@@ -42,6 +42,7 @@ class Hotel extends BaseController
             'name' => $name,
             'description' => $description,
             'address' => $address,
+            'image_id' => rand(1, 10),
         ];
 
         $model->insert($data);

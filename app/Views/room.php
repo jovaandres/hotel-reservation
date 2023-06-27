@@ -34,7 +34,7 @@
                     <p class="card-text hotel-name"><b>Hotel Name:</b> <?= $hotel['name'] ?></p>
                     <p class="card-text description"><b>Description:</b> <?= $hotel['description'] ?></p>
                     <p class="card-text room-type"><b>Room Type:</b> <?= $rooms['room_type'] ?></p>
-                    <p class="card-text price-per-night"><b>Price per Night:</b> $<?= $rooms['price_per_night'] ?></p>
+                    <p class="card-text price-per-night"><b>Price per Night: </b>Rp <?= number_format($rooms['price_per_night'], 0, '.', '.') ?></p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-body">
                 <!-- Review form -->
-                <form action="/review/" method="POST">
+                <form action="<?= base_url('review') ?>" method="POST">
                     <div class="mb-3">
                         <label for="rating" class="form-label">Rating:</label>
                         <select name="rating" id="rating" class="form-select" required>
@@ -113,7 +113,7 @@
             </div>
             <div class="modal-body">
                 <!-- Reservation form -->
-                <form action="/reservation/create" method="POST">
+                <form action="<?= base_url('reservation/create') ?>" method="POST">
                     <div class="mb-3">
                         <label for="check-in-date" class="form-label">Check-in Date:</label>
                         <input type="date" class="form-control" id="check-in-date" name="check_in_date" required>

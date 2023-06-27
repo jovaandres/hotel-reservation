@@ -14,7 +14,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <form action="user/delete" method="POST">
+        <form action="<?= base_url('admin/user/delete') ?>" method="POST">
           <input type="hidden" name="id" id="deleteUserId">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>

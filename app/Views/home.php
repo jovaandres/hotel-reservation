@@ -8,7 +8,7 @@
     </div>
     <div class="card-container mt-4">
         <?php foreach ($rooms as $room) : ?>
-            <a href="/room/<?= $room['id'] ?>" class="text-decoration-none">
+            <a href="<?= base_url('room/' . $room['id'])  ?>" class="text-decoration-none">
                 <div class="card mb-4 border-0">
                     <div class="image-wrapper">
                         <img src="<?= $room['hotel_image'] ?>" class="card-img-top square-image" alt="Hotel Image">

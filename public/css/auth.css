@@ -1,3 +1,8 @@
+body {
+  background: #c0c0c0!important;
+  /* backgrounrgb(204, 204, 204)ar-gradient(9deg, rgba(255,90,95,1) 0%, rgba(196,17,109,1) 50%, rgba(0,166,153,1) 100%); */
+}
+
 .form-group .form-control {
   font-size: 13px;
 }
@@ -16,7 +21,7 @@
 }
 
 .a-color {
-  color: #06e9da;
+  color: #02b8ac;
 }
 
 .forget-password {

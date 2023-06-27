@@ -1,6 +1,20 @@
 <?= $this->extend('templates/admin') ?>
 
 <?= $this->section('content') ?>
+    <!-- Payment Images -->
+    <div class="modal fade" id="transferEvidenceModal" tabindex="-1" role="dialog" aria-labelledby="transferEvidenceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transferEvidenceModalLabel">Transfer Evidence</h5>
+                </div>
+                <div class="modal-body">
+                    <img id="transferEvidenceImage" src="" class="img-fluid" alt="Transfer Evidence">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="acceptBookingModal" tabindex="-1" role="dialog" aria-labelledby="acceptBookingModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -12,7 +26,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="booking/accept" method="POST">
+                <form action="<?= base_url('admin/booking/accept') ?>" method="POST">
                 <input type="hidden" name="id" id="acceptBookingId">
                 <button type="submit" class="btn btn-danger">Confirm</button>
                 </form>
@@ -33,7 +47,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="booking/reject" method="POST">
+                <form action="<?= base_url('admin/booking/reject') ?>" method="POST">
                 <input type="hidden" name="id" id="rejectBookingId">
                 <button type="submit" class="btn btn-danger">Confirm</button>
                 </form>
@@ -44,12 +58,12 @@
 
     <div class="container mt-4">
         <h1>Booking Management</h1>
-        <div class="table-responsive my-4 p-4 border shadow">
+        <div class="book-table table-responsive my-4 p-4 border shadow">
             <table class="table">
                 <tbody>
                     <?php foreach ($bookings as $booking) : ?>
                         <tr>
-                            <td>
+                            <td class="booking-image">
                                 <img src="<?= $booking['hotel_image'] ?>" class="img-thumbnail" alt="Hotel Image" style="width: 100px; height: 100px;object-fit: cover;">
                             </td>
                             <td>
@@ -66,21 +80,23 @@
                             </td>
                             <td>Rp <?= number_format($booking['total_price'], 0, '.', '.') ?></td>
                             <td>
-                                <?php if ($booking['status'] == "transferred"): ?>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBookingModal" data-id="<?= $booking['id'] ?>">
-                                        Accept
-                                    </button>
-                                <?php endif; ?>
-                                <?php if ($booking['status'] == "transferred"): ?>
-                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectBookingModal" data-id="<?= $booking['id'] ?>">
-                                        Reject
-                                    </button>
-                                <?php endif; ?>
-                                <?php if ($booking['status'] == "transferred"): ?>
-                                    <button class="btn btn-sm btn-primary btn-payment-check" data-bs-toggle="modal" data-bs-target="#transferEvidenceModal" data-transfer-evidence-url="<?= base_url("uploads/payment/" . $booking['transfer_evidence']) ?>">
-                                        Check Payment
-                                    </button>
-                                <?php endif; ?>
+                                <div class="action-container">
+                                    <?php if ($booking['status'] == "transferred"): ?>
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBookingModal" data-id="<?= $booking['id'] ?>">
+                                            Accept
+                                        </button>
+                                    <?php endif; ?>
+                                    <?php if ($booking['status'] == "transferred"): ?>
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectBookingModal" data-id="<?= $booking['id'] ?>">
+                                            Reject
+                                        </button>
+                                    <?php endif; ?>
+                                    <?php if ($booking['status'] == "transferred"): ?>
+                                        <button class="btn btn-sm btn-primary btn-payment-check" data-bs-toggle="modal" data-bs-target="#transferEvidenceModal" data-transfer-evidence-url="<?= base_url("uploads/payment/" . $booking['transfer_evidence']) ?>">
+                                            Check Payment
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -120,6 +136,12 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         var button = document.querySelector('.btn-payment-check');
+
+        button.addEventListener('click', function() {
+            var imageUrl = button.dataset.transferEvidenceUrl;
+            var imageElement = document.getElementById('transferEvidenceImage');
+            imageElement.src = imageUrl;
+        });
     });
 </script>
 <?= $this->endSection() ?>
