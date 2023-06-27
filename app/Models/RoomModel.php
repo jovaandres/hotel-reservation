@@ -34,7 +34,7 @@ class RoomModel extends Model
 
     public function getRoomAndImage($id)
     {
-        return $this->select('room.*, images.*')
+        return $this->select('room.id as room_id, room.*, hotel.name as hotel_name, images.*')
             ->join('hotel', 'hotel.id = room.hotel_id')
             ->join('images', 'images.id = hotel.image_id')
             ->where('room.id', $id)
