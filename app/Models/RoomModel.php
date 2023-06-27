@@ -19,6 +19,11 @@ class RoomModel extends Model
         return $this->findAll();
     }
 
+    public function getRoom($id)
+    {
+        return $this->find($id);
+    }
+
     public function getRoomsAndHotels()
     {
         return $this->select('room.*, hotel.name as hotel_name, images.first_image as hotel_image')

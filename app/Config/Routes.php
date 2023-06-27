@@ -55,10 +55,7 @@ $routes->get('/reservation/', 'Reservation::index', ["filter" => "login"]);
 $routes->post('/reservation/pay', 'Reservation::pay', ["filter" => "login"]);
 $routes->post('/reservation/cancel', 'Reservation::cancel', ["filter" => "login"]);
 
-$routes->get('/reservation/(:num)', 'Reservation::show/$1');
-$routes->post('/reservation/', 'Reservation::create');
-$routes->put('/reservation/(:num)', 'Reservation::update/$1');
-$routes->delete('/reservation/(:num)', 'Reservation::delete/$1');
+$routes->post('/reservation/create','Reservation::create', ["filter" => "login"]);
 
 $routes->get('/about-us', 'About_us::index');
 $routes->get('/contact-information', 'Contact_information::index');
@@ -82,6 +79,15 @@ $routes->group('admin', ["filter" => "admin"] , function($routes) {
         $routes->post('add', 'Room::create');
         $routes->post('edit', 'Room::update');
         $routes->post('delete', 'Room::delete');
+    });
+
+    $routes->group('booking', function($routes) {
+        $routes->get('/', 'AdminDashboard::manageBooking');
+        $routes->post('accept', 'Reservation::accept');
+        $routes->post('reject', 'Reservation::reject');
+        $routes->post('add', 'Reservation::create');
+        $routes->post('edit', 'Reservation::update');
+        $routes->post('delete', 'Reservation::delete');
     });
 
     $routes->group('user', function($routes) {

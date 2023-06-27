@@ -40,7 +40,6 @@ class ReservationModel extends Model
 
     public function updateReservation($id, $data)
     {
-        var_dump($data);
         return $this->update($id, $data);
     }
 

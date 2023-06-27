@@ -99,4 +99,39 @@
     </div>
 </div>
 
+<!-- Datepicker -->
+<div class="text-center mt-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservationModal">Make a Reservation</button>
+</div>
+
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">Make a Reservation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Reservation form -->
+                <form action="/reservation/create" method="POST">
+                    <div class="mb-3">
+                        <label for="check-in-date" class="form-label">Check-in Date:</label>
+                        <input type="date" class="form-control" id="check-in-date" name="check_in_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="check-out-date" class="form-label">Check-out Date:</label>
+                        <input type="date" class="form-control" id="check-out-date" name="check_out_date" required>
+                    </div>
+                    <input type="hidden" name="room_id" value="<?= $rooms['id'] ?>">
+                    <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
+                    <button type="submit" class="btn btn-primary">Make Reservation</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection() ?>

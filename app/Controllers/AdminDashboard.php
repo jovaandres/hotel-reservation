@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ReservationModel;
 use App\Models\RoomModel;
 use App\Models\HotelModel;
 use CodeIgniter\API\ResponseTrait;
@@ -34,6 +35,16 @@ class AdminDashboard extends BaseController
         'rooms' => $rooms,
         'hotels' => $hotels
       ]);
+    }
+
+    public function manageBooking()
+    {
+      $model = new ReservationModel();
+      $reservations = $model->getReservations();
+
+      return view('admin/manage_booking', [
+        'bookings' => $reservations,
+    ]);
     }
 
     public function manageUser()

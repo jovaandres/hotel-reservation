@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\RoomModel;
 use App\Models\ReservationModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
@@ -63,6 +64,34 @@ class Reservation extends Controller
         return redirect()->to('/reservation')->with('success', 'Booking cancelled.');
     }
 
+    public function accept()
+    {
+        $booking_id = $this->request->getPost('id');
+
+        $data = [
+            'status' => 'confirmed',
+        ];
+
+        $model = new ReservationModel();
+        $model->updateReservation($booking_id, $data);
+
+        return redirect()->to('/admin/booking')->with('success', 'Booking confirmed.');
+    }
+
+    public function reject()
+    {
+        $booking_id = $this->request->getPost('id');
+
+        $data = [
+            'status' => 'rejected',
+        ];
+
+        $model = new ReservationModel();
+        $model->updateReservation($booking_id, $data);
+
+        return redirect()->to('/admin/booking')->with('success', 'Booking rejected.');
+    }
+
     public function show($id)
     {
         $model = new ReservationModel();
@@ -77,7 +106,61 @@ class Reservation extends Controller
 
     public function create()
     {
-        // Code to create a new reservation
+        $authenticator = auth('session')->getAuthenticator();
+        $currentUser = $authenticator->getUser();
+
+        $room_id = $this->request->getPost('room_id');
+        $user_id = $currentUser->id;
+
+        $roomModel = new RoomModel();
+        $room = $roomModel->getRoom($room_id);
+
+        $model = new ReservationModel();
+
+        $words = range('a', 'z');
+
+        // Get a random word from the array
+        $randomWord1 = $words[array_rand($words)];
+        $randomWord2 = $words[array_rand($words)];
+        $randomWord3 = $words[array_rand($words)];
+
+        // Generate a random number with four digits
+        $randomNumber = sprintf("%04d", mt_rand(0, 9999));
+
+        // Concatenate the random word and number
+        $randomCode = $randomWord1 . $randomWord2 . $randomWord3 . $randomNumber;
+        $booking_code = $randomCode;
+
+        $status = 'pending';
+        $check_in_date = $this->request->getPost('check_in_date');
+        $check_out_date = $this->request->getPost('check_out_date');
+
+        // Create DateTime objects for the check-in and check-out dates
+        $checkIn = new \DateTime($check_in_date);
+        $checkOut = new \DateTime($check_out_date);
+
+        // Calculate the interval between the dates
+        $interval = $checkIn->diff($checkOut);
+
+        // Get the number of days in the interval
+        $numberOfDays = $interval->days;
+
+        $total_price = $room['price_per_night'] * $numberOfDays;
+
+        $data = [
+            'user_id' => $user_id,
+            'room_id' => $room_id,
+            'booking_code' => $booking_code,
+            'status' => $status,
+            'check_in_date' => $check_in_date,
+            'check_out_date' => $check_out_date,
+            'total_price' => $total_price
+        ];
+
+        $model->createReservation($data);
+
+        // Redirect back to the room detail page after creating the review
+        return redirect()->to('/room/' . $room_id);
     }
 
     public function update($id)
