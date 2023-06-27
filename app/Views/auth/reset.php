@@ -18,7 +18,7 @@
                         <?php endif ?>
                     </div>
                 <?php endif ?>
-                <form action="/reset" method="POST">
+                <form action="<?= base_url('reset') ?>" method="POST">
                     <input type="hidden" name="email" value="<?= $user->email ?>">
                     <div class="form-group">
                         <label for="password" class="small">Password</label>

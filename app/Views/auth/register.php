@@ -20,7 +20,7 @@
                     </div>
                 <?php endif ?>
                 <h2 class="card-title text-center mb-4">Register</h2>
-                <form action="/register" method="POST">
+                <form action="<?= base_url('register') ?>" method="POST">
                     <div class="form-group">
                         <label for="username" class="small">Username</label>
                         <input type="username" name="username" id="username" class="form-control" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
@@ -39,7 +39,7 @@
                     </div>
                     <button type="submit" class="btn btn-grad btn-block mt-3 w-100">Register</button>
                 </form>
-                <p class="text-center mt-3 small">Already have an account? <b><a href="/login" class="a-color text-decoration-none">Login</a></b></p>
+                <p class="text-center mt-3 small">Already have an account? <b><a href="<?= base_url('login') ?>" class="a-color text-decoration-none">Login</a></b></p>
             </div>
         </div>
     </div>

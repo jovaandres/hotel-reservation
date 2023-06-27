@@ -23,7 +23,7 @@
                     </div>
                 <?php endif ?>
                 <h2 class="card-title text-center mb-4">Login</h2>
-                <form action="/login" method="POST">
+                <form action="<?= base_url('login') ?>" method="POST">
                     <div class="form-group">
                         <label for="email" class="small">Email</label>
                         <input type="email" name="email" id="email" class="form-control custom-text-size" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
@@ -33,11 +33,11 @@
                         <input type="password" name="password" id="password" class="form-control" placeholder="<?= lang('Auth.password') ?>" required>
                     </div>
                     <div class="form-group mt-2 small forget-password">
-                        <a href="/forget" class="a-color text-decoration-none">Forget Password?</a>
+                        <a href="<?= base_url('forget') ?>" class="a-color text-decoration-none">Forget Password?</a>
                     </div>
                     <button type="submit" class="btn-grad btn btn-block mt-3 w-100">Login</button>
                 </form>
-                <p class="text-center mt-3 small">Don't have an account? <b><a href="/register" class="a-color text-decoration-none">Register</a></b></p>
+                <p class="text-center mt-3 small">Don't have an account? <b><a href="<?= base_url('register') ?>" class="a-color text-decoration-none">Register</a></b></p>
             </div>
         </div>
     </div>

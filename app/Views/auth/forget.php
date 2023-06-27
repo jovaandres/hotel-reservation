@@ -18,7 +18,7 @@
                         <?php endif ?>
                     </div>
                 <?php endif ?>
-                <form action="/forget" method="POST">
+                <form action="<?= base_url('forget') ?>" method="POST">
                     <div class="form-group">
                         <label for="email" class="small">Email</label>
                         <input type="email" name="email" id="email" class="form-control custom-text-size" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
