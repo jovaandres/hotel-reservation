@@ -116,6 +116,9 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <form action="<?= base_url('reservation/exportpdf') ?>" method="POST">
+                <button type="submit" class="btn btn-primary">Export to PDF</button>
+            </form>
         </div>
     </div>
     

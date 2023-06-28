@@ -6,6 +6,7 @@ use App\Models\RoomModel;
 use App\Models\ReservationModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
+use TCPDF;
 
 class Reservation extends Controller
 {
@@ -208,6 +209,68 @@ class Reservation extends Controller
         } catch (\Exception $e) {
             // Handle the exception
             return redirect()->to('/hotel/' . $hotel_id)->with('error', $e->getMessage());
+        }
+    }
+
+    public function reservationPdf($groupReservation, $user)
+    {
+        $html = '<table border="1" style="padding: 10px;">';
+
+        $html .= '<tr>';
+        $html .= '<td><strong>Hotel Name</strong></td>';
+        $html .= '<td><strong>Booking Code</strong></td>';
+        $html .= '<td><strong>Room Type</strong></td>';
+        $html .= '<td><strong>Date</strong></td>';
+        $html .= '<td><strong>Status</strong></td>';
+        $html .= '<td><strong>Total Price</strong></td>';
+        $html .= '</tr>';
+        
+        foreach ($groupReservation as $bookings) {
+            foreach ($bookings as $booking) {
+                $html .= '<tr>';
+                $html .= '<td>' . $booking['hotel_name'] . '</td>';
+                $html .= '<td>' . strtoupper($booking['booking_code']) . '</td>';
+                $html .= '<td>' . $booking['room_type'] . '</td>';
+                $html .= '<td>' . date("M d, Y", strtotime($booking['check_in_date'])) . " - " . date("M d, Y", strtotime($booking['check_out_date'])) . '</td>';
+                $html .= '<td>' . strtoupper($booking['status']) . '</td>';
+                $html .= '<td>Rp ' . number_format($booking['total_price'], 0, '.', '.') . '</td>';
+                $html .= '</tr>';
+            }
+        }
+        $html .= '</table>';
+
+        return $html;
+    }
+    
+    public function exportToPdf()
+    {
+        try {
+            $authenticator = auth('session')->getAuthenticator();
+            $user = $authenticator->getUser();
+    
+            $model = new ReservationModel();
+            $reservations = [];
+
+            if ($user->is_admin) {
+                $reservations = $model->getReservations();
+            } else {
+                $reservations = $model->getReservation($user->id);
+            }
+    
+            $groupReservation = [];
+            foreach ($reservations as $reservation) {
+                $groupReservation[$reservation['booking_code']][] = $reservation;
+            }
+
+            $html = $this->reservationPdf($groupReservation, $user);
+    
+            $pdf = new TCPDF();
+            $pdf->AddPage();
+            $pdf->writeHTML($html, true, false, true, false, '');
+            $pdf->Output('booking_management.pdf', 'D');
+        } catch (\Exception $e) {
+            // Handle the exception
+            return $this->failServerError($e->getMessage());
         }
     }
 }

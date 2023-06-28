@@ -52,6 +52,7 @@ $routes->delete('/room/(:num)', 'Room::delete/$1');
 $routes->get('/reservation/', 'Reservation::index', ["filter" => "login"]);
 $routes->post('/reservation/pay', 'Reservation::pay', ["filter" => "login"]);
 $routes->post('/reservation/cancel', 'Reservation::cancel', ["filter" => "login"]);
+$routes->post('/reservation/exportpdf', 'Reservation::exportToPdf', ["filter" => "login"]);
 
 $routes->post('/reservation/create','Reservation::create', ["filter" => "login"]);
 
@@ -86,6 +87,7 @@ $routes->group('admin', ["filter" => "admin"] , function($routes) {
         $routes->post('add', 'Reservation::create');
         $routes->post('edit', 'Reservation::update');
         $routes->post('delete', 'Reservation::delete');
+        $routes->post('exportpdf', 'Reservation::exportToPdf');
     });
 
     $routes->group('user', function($routes) {

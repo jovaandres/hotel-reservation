@@ -102,7 +102,10 @@
                         <?php endforeach; ?>
                     <?php endforeach; ?>
                 </tbody>
-            </table>
+            </table>            
+            <form action="<?= base_url('admin/booking/exportpdf') ?>" method="POST">
+                <button type="submit" class="btn btn-primary">Export to PDF</button>
+            </form>
         </div>
     </div>
     
