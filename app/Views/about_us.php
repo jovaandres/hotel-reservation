@@ -13,7 +13,7 @@
             <h3>Our Mission</h3>
             <p>Untuk memberikan pengalaman keramahtamahan yang luar biasa yang melebihi harapan tamu kami dan menciptakan kenangan abadi. Kami berkomitmen untuk memberikan layanan yang dipersonalisasi, akomodasi mewah, dan fasilitas luar biasa sambil mempertahankan standar kualitas, kenyamanan, dan keberlanjutan tertinggi.</p>
             <h3 class="mt-5">Our Vision</h3>
-            <p>To be the leading hotel company recognized globally for our unwavering commitment to excellence in hospitality. We strive to create a brand synonymous with luxury, innovation, and unparalleled guest satisfaction. Our vision is to inspire and delight travelers by curating exceptional experiences and setting new benchmarks in the industry.</p>
+            <p>Menjadi perusahaan perhotelan terkemuka yang diakui secara global atas komitmen kami yang tak tergoyahkan terhadap keunggulan dalam perhotelan. Kami berusaha keras untuk menciptakan merek yang identik dengan kemewahan, inovasi, dan kepuasan tamu yang tak tertandingi. Visi kami adalah untuk menginspirasi dan menyenangkan wisatawan dengan menyusun pengalaman luar biasa dan menetapkan tolok ukur baru dalam industri ini.</p>
         </div>
     </div>
 </div>

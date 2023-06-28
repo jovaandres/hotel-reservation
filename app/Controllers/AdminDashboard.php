@@ -54,8 +54,13 @@ class AdminDashboard extends BaseController
             $model = new ReservationModel();
             $reservations = $model->getReservations();
 
+            $groupReservation = [];
+            foreach ($reservations as $reservation) {
+                $groupReservation[$reservation['booking_code']][] = $reservation;
+            }
+
             return view('admin/manage_booking', [
-                'bookings' => $reservations,
+                'bookingGroup' => $groupReservation,
             ]);
         } catch (\Exception $e) {
             // Handle the exception

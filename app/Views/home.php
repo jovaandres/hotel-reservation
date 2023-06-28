@@ -7,16 +7,16 @@
         <p>Find your perfect room</p>
     </div>
     <div class="card-container mt-4">
-        <?php foreach ($rooms as $room) : ?>
-            <a href="<?= base_url('room/' . $room['id'])  ?>" class="text-decoration-none">
+        <?php foreach ($hotels as $hotel) : ?>
+            <a href="<?= base_url('hotel/' . $hotel['id'])  ?>" class="text-decoration-none">
                 <div class="card mb-4 border-0">
                     <div class="image-wrapper">
-                        <img src="<?= $room['hotel_image'] ?>" class="card-img-top square-image" alt="Hotel Image">
+                        <img src="<?= $hotel['hotel_image'] ?>" class="card-img-top square-image" alt="Hotel Image">
                     </div>
                     <div class="card-body">
-                        <p class="card-title"><b><?= $room['hotel_name'] ?></b></p>
-                        <p class="card-text"><i><?= $room['room_type'] ?></i></p>
-                        <p class="card-text"><b>Rp <?= number_format($room['price_per_night'], 0, '.', '.') ?> / malam</b></p>
+                        <p class="card-title"><b><?= $hotel['name'] ?></b></p>
+                        <p class="card-text"><i>Mulai dari</i></p>
+                        <p class="card-text"><b>Rp <?= number_format($hotel['price_per_night'], 0, '.', '.') ?> / malam</b></p>
                     </div>
                 </div>
             </a>

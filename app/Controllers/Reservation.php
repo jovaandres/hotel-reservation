@@ -20,8 +20,13 @@ class Reservation extends Controller
             $model = new ReservationModel();
             $reservations = $model->getReservation($user->id);
 
+            $groupReservation = [];
+            foreach ($reservations as $reservation) {
+                $groupReservation[$reservation['booking_code']][] = $reservation;
+            }
+
             return view('reservation', [
-                'bookings' => $reservations,
+                'bookingGroup' => $groupReservation,
             ]);
         } catch (\Exception $e) {
             // Handle the exception
@@ -34,7 +39,7 @@ class Reservation extends Controller
         try {
             $model = new ReservationModel();
 
-            $booking_id = $this->request->getPost('id');
+            $booking_code = $this->request->getPost('code');
             $payment_method = $this->request->getPost('payment_method');
             $transferEvidence = $this->request->getFile('transfer_evidence');
 
@@ -48,7 +53,7 @@ class Reservation extends Controller
                     'transfer_evidence' => $newName,
                 ];
 
-                $model->updateReservation($booking_id, $paymentData);
+                $model->updateReservationByBookingCode($booking_code, $paymentData);
 
                 return redirect()->to('/reservation')->with('success', 'Payment created.');
             }
@@ -63,14 +68,14 @@ class Reservation extends Controller
     public function cancel()
     {
         try {
-            $booking_id = $this->request->getPost('id');
+            $booking_code = $this->request->getPost('code');
 
             $data = [
                 'status' => 'canceled',
             ];
 
             $model = new ReservationModel();
-            $model->updateReservation($booking_id, $data);
+            $model->updateReservationByBookingCode($booking_code, $data);
 
             return redirect()->to('/reservation')->with('success', 'Booking cancelled.');
         } catch (\Exception $e) {
@@ -82,14 +87,14 @@ class Reservation extends Controller
     public function accept()
     {
         try {
-            $booking_id = $this->request->getPost('id');
+            $booking_code = $this->request->getPost('code');
 
             $data = [
                 'status' => 'confirmed',
             ];
 
             $model = new ReservationModel();
-            $model->updateReservation($booking_id, $data);
+            $model->updateReservationByBookingCode($booking_code, $data);
 
             return redirect()->to('/admin/booking')->with('success', 'Booking confirmed.');
         } catch (\Exception $e) {
@@ -101,14 +106,14 @@ class Reservation extends Controller
     public function reject()
     {
         try {
-            $booking_id = $this->request->getPost('id');
+            $booking_code = $this->request->getPost('code');
 
             $data = [
                 'status' => 'rejected',
             ];
 
             $model = new ReservationModel();
-            $model->updateReservation($booking_id, $data);
+            $model->updateReservationByBookingCode($booking_code, $data);
 
             return redirect()->to('/admin/booking')->with('success', 'Booking rejected.');
         } catch (\Exception $e) {
@@ -141,12 +146,16 @@ class Reservation extends Controller
             $currentUser = $authenticator->getUser();
 
             $room_id = $this->request->getPost('room_id');
+            $hotel_id = $this->request->getPost('hotel_id');
             $user_id = $currentUser->id;
 
             $roomModel = new RoomModel();
             $room = $roomModel->getRoom($room_id);
 
             $model = new ReservationModel();
+
+            // Check if there is pending booking for the same hotel
+            $pendingBooking = $model->getPendingBooking($user_id, $hotel_id);
 
             $words = range('a', 'z');
 
@@ -161,6 +170,10 @@ class Reservation extends Controller
             // Concatenate the random word and number
             $randomCode = $randomWord1 . $randomWord2 . $randomWord3 . $randomNumber;
             $booking_code = $randomCode;
+
+            if ($pendingBooking) {
+                $booking_code = $pendingBooking['booking_code'];
+            }
 
             $status = 'pending';
             $check_in_date = $this->request->getPost('check_in_date');
@@ -194,7 +207,7 @@ class Reservation extends Controller
             return redirect()->back()->with('success', 'Booking created.');
         } catch (\Exception $e) {
             // Handle the exception
-            return redirect()->to('/room/' . $room_id)->with('error', $e->getMessage());
+            return redirect()->to('/hotel/' . $hotel_id)->with('error', $e->getMessage());
         }
     }
 }

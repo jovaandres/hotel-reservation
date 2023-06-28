@@ -2,18 +2,21 @@
 
 namespace App\Controllers;
 
-use App\Models\RoomModel;
+use CodeIgniter\API\ResponseTrait;
+use App\Models\HotelModel;
 
 class Home extends BaseController
 {
+    use ResponseTrait;
+
     public function index()
     {
         try {
-            $roomModel = new RoomModel();
-            $rooms = $roomModel->getRoomsAndHotels();
+            $hotelModel = new HotelModel();
+            $hotels = $hotelModel->getHotelsWithCheapestPrice();
 
             return view('home', [
-                'rooms' => $rooms,
+                'hotels' => $hotels,
             ]);
         } catch (\Exception $e) {
             // Handle the exception

@@ -24,7 +24,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="<?= base_url('reservation/pay') ?>" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" id="bookingId">
+                        <input type="hidden" name="code" id="bookingCode">
                         <h6>Booking Code: <b><span id="bookingCode"></span></b></h6>
                         <div class="form-group">
                             <label for="transfer_evidence">Evidence of Transfer</label>
@@ -61,7 +61,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form action="<?= base_url('reservation/cancel') ?>" method="POST">
-                <input type="hidden" name="id" id="cancelBookingId">
+                <input type="hidden" name="code" id="cancelBookingCode">
                 <button type="submit" class="btn btn-danger">Confirm</button>
                 </form>
             </div>
@@ -74,42 +74,45 @@
         <div class="table-responsive my-4 p-4 border shadow">
             <table class="table">
                 <tbody>
-                    <?php foreach ($bookings as $booking) : ?>
-                        <tr>
-                            <td>
-                                <img src="<?= $booking['hotel_image'] ?>" class="img-thumbnail" alt="Hotel Image" style="width: 100px; height: 100px;object-fit: cover;">
-                            </td>
-                            <td>
-                                <p><b><?= $booking['hotel_name'] ?></b></p>
-                                <p><?= date("M d, Y", strtotime($booking['check_in_date'])) . " - " . date("M d, Y", strtotime($booking['check_out_date'])) ?></p>
-                                <p><?= $booking['room_type'] ?></p>
-                            </td>
-                            <td>
-                                <p><?= strtoupper($booking['booking_code']) ?></p>
-                                <p><?= strtoupper($booking['status']) ?></p>
-                                <?php if ($booking['status'] == "transferred"): ?>
-                                    <p>via <?= $booking['payment'] ?></p>
-                                <?php endif; ?>
-                            </td>
-                            <td>Rp <?= number_format($booking['total_price'], 0, '.', '.') ?></td>
-                            <td>
-                                <?php if ($booking['status'] == "pending"): ?>
-                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" data-id="<?= $booking['id'] ?>" data-code="<?= $booking['booking_code'] ?>">
-                                        Pay
-                                    </button>
-                                <?php endif; ?>
-                                <?php if ($booking['status'] == "pending"): ?>
-                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelBookingModal" data-id="<?= $booking['id'] ?>">
-                                        Cancel
-                                    </button>
-                                <?php endif; ?>
-                                <?php if ($booking['status'] == "transferred"): ?>
-                                    <button class="btn btn-sm btn-primary btn-payment-check" data-bs-toggle="modal" data-bs-target="#transferEvidenceModal" data-transfer-evidence-url="<?= base_url("uploads/payment/" . $booking['transfer_evidence']) ?>">
-                                        Check Payment
-                                    </button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
+                    <?php foreach ($bookingGroup as $bookings) : ?>
+                        <?php $lastBookingKey = array_key_last($bookings); ?>
+                        <?php foreach ($bookings as $key => $booking) : ?>
+                            <tr class="<?= ($key !== $lastBookingKey) ? 'no-border' : '' ?>">
+                                <td>
+                                    <img src="<?= $booking['hotel_image'] ?>" class="img-thumbnail" alt="Hotel Image" style="width: 100px; height: 100px; object-fit: cover;">
+                                </td>
+                                <td>
+                                    <p><b><?= $booking['hotel_name'] ?></b></p>
+                                    <p><?= date("M d, Y", strtotime($booking['check_in_date'])) . " - " . date("M d, Y", strtotime($booking['check_out_date'])) ?></p>
+                                    <p><?= $booking['room_type'] ?></p>
+                                </td>
+                                <td>
+                                    <p><?= strtoupper($booking['booking_code']) ?></p>
+                                    <p><?= strtoupper($booking['status']) ?></p>
+                                    <?php if ($booking['status'] == "transferred"): ?>
+                                        <p>via <?= $booking['payment'] ?></p>
+                                    <?php endif; ?>
+                                </td>
+                                <td>Rp <?= number_format($booking['total_price'], 0, '.', '.') ?></td>
+                                <td>
+                                    <?php if ($key === $lastBookingKey && $booking['status'] == "pending"): ?>
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" data-code="<?= $booking['booking_code'] ?>">
+                                            Pay
+                                        </button>
+                                    <?php endif; ?>
+                                    <?php if ($key === $lastBookingKey && $booking['status'] == "pending"): ?>
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelBookingModal" data-code="<?= $booking['booking_code'] ?>">
+                                            Cancel
+                                        </button>
+                                    <?php endif; ?>
+                                    <?php if ($key === $lastBookingKey && $booking['status'] == "transferred"): ?>
+                                        <button class="btn btn-sm btn-primary btn-payment-check" data-bs-toggle="modal" data-bs-target="#transferEvidenceModal" data-transfer-evidence-url="<?= base_url("uploads/payment/" . $booking['transfer_evidence']) ?>">
+                                            Check Payment
+                                        </button>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -123,34 +126,32 @@
     // Function to handle the modal show event
     function handeCreatePayment(event) {
         var button = event.relatedTarget;
-        var id = button.getAttribute('data-id');
         var code = button.getAttribute('data-code');
 
-        var bookingId = paymentModal.querySelector('#bookingId');
         var bookingCode = paymentModal.querySelector('#bookingCode');
 
         // Set the values in the modal inputs
-        bookingId.value = id;
+        bookingCode.value = code;
         bookingCode.innerHTML = code.toUpperCase();
     }
 
     function handleCancelBooking(event) {
         var button = event.relatedTarget;
-        var id = button.getAttribute('data-id');
+        var code = button.getAttribute('data-code');
 
-        var cancelBookingId = cancelBookingModal.querySelector('#cancelBookingId');
+        var cancelBookingCode = cancelBookingModal.querySelector('#cancelBookingCode');
 
         // Set the values in the modal inputs
-        cancelBookingId.value = id;
+        cancelBookingCode.value = code;
     }
 
     // Attach event listener to the paymentModal show event
     paymentModal.addEventListener('show.bs.modal', handeCreatePayment);
     cancelBookingModal.addEventListener('show.bs.modal', handleCancelBooking);
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var button = document.querySelector('.btn-payment-check');
+    var buttons = document.querySelectorAll('.btn-payment-check');
 
+    buttons.forEach(function(button) {
         button.addEventListener('click', function() {
             var imageUrl = button.dataset.transferEvidenceUrl;
             var imageElement = document.getElementById('transferEvidenceImage');

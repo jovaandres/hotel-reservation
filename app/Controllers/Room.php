@@ -148,6 +148,7 @@ class Room extends Controller
             $currentUser = $authenticator->getUser();
 
             $room_id = $this->request->getPost('room_id');
+            $hotel_id = $this->request->getPost('hotel_id');
 
             $data = [
                 'rating' => $this->request->getPost('rating'),
@@ -162,7 +163,7 @@ class Room extends Controller
             return redirect()->back()->with('success', 'Review created.');
         } catch (\Exception $e) {
             // Handle the exception
-            return redirect()->to('/room/' . $room_id)->with('error', $e->getMessage());
+            return redirect()->to('/hotel/' . $hotel_id)->with('error', $e->getMessage());
         }
     }
 }

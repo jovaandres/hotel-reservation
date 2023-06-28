@@ -15,6 +15,31 @@ class HotelModel extends Model
         return $this->findAll();
     }
 
+    public function getHotelsWithCheapestPrice()
+    {
+        return $this->select('hotel.*, MIN(room.price_per_night) as price_per_night, images.first_image as hotel_image')
+            ->join('room', 'hotel.id = room.hotel_id')
+            ->join('images', 'images.id = hotel.image_id')
+            ->groupBy('hotel.id')
+            ->findAll();
+    }
+
+    public function getRoomsOfHotel($id)
+    {
+        return $this->select('room.*')
+            ->join('room', 'hotel.id = room.hotel_id')
+            ->where('hotel.id', $id)
+            ->findAll();
+    }
+
+    public function getHotelWithImage($id)
+    {
+        return $this->select('hotel.*, images.*')
+            ->join('images', 'images.id = hotel.image_id')
+            ->where('hotel.id', $id)
+            ->first();
+    }
+
     public function getAllHotelsName()
     {
         return $this->select('id, name')->findAll();

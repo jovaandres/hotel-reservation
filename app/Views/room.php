@@ -14,13 +14,13 @@
             <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="<?= $rooms['first_image'] ?>" class="d-block w-100" alt="Room Image 1">
+                        <img src="<?= $hotel['first_image'] ?>" class="d-block w-100" alt="Room Image 1">
                     </div>
                     <div class="carousel-item">
-                        <img src="<?= $rooms['second_image'] ?>" class="d-block w-100" alt="Room Image 2">
+                        <img src="<?= $hotel['second_image'] ?>" class="d-block w-100" alt="Room Image 2">
                     </div>
                     <div class="carousel-item">
-                        <img src="<?= $rooms['third_image'] ?>" class="d-block w-100" alt="Room Image 3">
+                        <img src="<?= $hotel['third_image'] ?>" class="d-block w-100" alt="Room Image 3">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
@@ -36,8 +36,23 @@
                 <div class="card-body">
                     <h5 class="card-title">Room Information</h5>
                     <p class="card-text description"><?= $hotel['description'] ?></p>
-                    <p class="card-text room-type mt-3"><b>Tipe Kamar:</b> <?= $rooms['room_type'] ?></p>
-                    <p class="card-text price-per-night mt-3"><b>Harga Per Malam: </b>Rp <?= number_format($rooms['price_per_night'], 0, '.', '.') ?></p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Available Rooms</h5>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Tipe Kamar</th>
+                                <th scope="row">Harga per malam</th>
+                            </tr>
+                        <?php foreach ($rooms as $room) : ?>
+                            <tr>
+                                <td><?= $room['room_type'] ?></td>
+                                <td>Rp <?= number_format($room['price_per_night'], 0, '.', '.') ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <?php if ($isLoggedIn && !$authenticator->getUser()->is_admin) : ?>
@@ -110,7 +125,6 @@
                         <label for="comment" class="form-label">Comment:</label>
                         <textarea name="comment" id="comment" class="form-control" required></textarea>
                     </div>
-                    <input type="hidden" name="room_id" value="<?= $rooms['room_id'] ?>">
                     <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
                     <button type="submit" class="btn btn-primary">Submit Review</button>
                 </form>
@@ -134,6 +148,7 @@
             <div class="modal-body">
                 <!-- Reservation form -->
                 <form action="<?= base_url('reservation/create') ?>" method="POST">
+                    <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
                     <div class="mb-3">
                         <label for="check-in-date" class="form-label">Check-in Date:</label>
                         <input type="date" class="form-control" id="check-in-date" name="check_in_date" required>
@@ -142,8 +157,14 @@
                         <label for="check-out-date" class="form-label">Check-out Date:</label>
                         <input type="date" class="form-control" id="check-out-date" name="check_out_date" required>
                     </div>
-                    <input type="hidden" name="room_id" value="<?= $rooms['room_id'] ?>">
-                    <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
+                    <div class="mb-3">
+                        <label for="room_id" class="form-label">Pilih Kamar:</label>
+                        <select name="room_id" id="room_id" class="form-select" required>
+                            <?php foreach ($rooms as $room) : ?>
+                                <option value="<?= $room['id'] ?>"><?= $room['room_type'] . ' @Rp' . number_format($room['price_per_night'], 0, '.', '.') ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Make Reservation</button>
                 </form>
             </div>

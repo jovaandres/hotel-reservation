@@ -37,7 +37,7 @@ $routes->post('/user/', 'User::create');
 $routes->put('/user/(:num)', 'User::update/$1');
 $routes->delete('/user/(:num)', 'User::delete/$1');
 
-$routes->get('/hotel/', 'Hotel::index');
+$routes->get('/hotel/(:num)', 'Hotel::index/$1');
 
 $routes->get('/review/', 'Room::index');
 $routes->get('/review/(:num)', 'Room::show/$1');
@@ -45,8 +45,6 @@ $routes->post('/review/', 'Room::createReview');
 $routes->put('/review/(:num)', 'Room::update/$1');
 $routes->delete('/review/(:num)', 'Room::delete/$1');
 
-$routes->get('/room/(:id)', 'Room::index');
-$routes->get('/room/(:num)', 'Room::index/$1');
 $routes->post('/room/', 'Room::create');
 $routes->put('/room/(:num)', 'Room::update/$1');
 $routes->delete('/room/(:num)', 'Room::delete/$1');

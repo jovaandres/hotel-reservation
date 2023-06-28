@@ -178,3 +178,11 @@
   color: #000;
   text-shadow: 0 0 5px #09f;
 }
+
+table {
+  border-color: #3f3f3f!important;
+}
+
+table .no-border {
+  border-color: #fff;
+}

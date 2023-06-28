@@ -156,3 +156,16 @@ button {
     display: none ;
   }
 }
+
+.sidebar {
+  min-height: 100vh;
+}
+
+
+.book-table table {
+  border-color: #3f3f3f!important;
+}
+
+.book-table table .no-border {
+  border-color: #fff;
+}

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\HotelModel;
+use App\Models\ReviewModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
 
@@ -10,13 +11,21 @@ class Hotel extends BaseController
 {
     use ResponseTrait;
 
-    public function index()
+    public function index($id)
     {
         try {
             $model = new HotelModel();
-            $hotels = $model->getHotels();
+            $hotel = $model->getHotelWithImage($id);
+            $rooms = $model->getRoomsOfHotel($id);
 
-            return $this->respond($hotels);
+            $reviewModel = new ReviewModel();
+            $reviews = $reviewModel->getReview($id);
+
+            return view('room', [
+                'reviews' => $reviews,
+                'hotel' => $hotel,
+                'rooms' => $rooms
+            ]);
         } catch (\Exception $e) {
             // Handle the exception
             return $this->failServerError($e->getMessage());
